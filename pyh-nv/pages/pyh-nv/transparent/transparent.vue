@@ -18,7 +18,7 @@
 					componentBgColor:"#2b9939",
 					color:"#fff",
 					transparent:{
-						type:"content",//全透明为'content',背景透明不传或填'background'
+						// type:"content",//全透明为'content',背景透明不传或填'background'
 						// anchor:200,//最终距离
 						originalNavigationBarColor:{
 							frontColor:"#ffffff",
