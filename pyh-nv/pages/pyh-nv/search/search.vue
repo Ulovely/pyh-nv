@@ -17,9 +17,9 @@
 						placeholder:"搜索",
 						// placeholderStyle:{color:"#333"},
 						//confirmType:"search",//同input的confirm-type
-						// input:true,
+						input:true,
 						// url:"/pages/index/index",
-						btn:{style:{}}
+						btn:{}
 					},
 					logo:{
 						url:"/pages/index/index"
