@@ -41,10 +41,18 @@
 			},
 			nvFormSubmit(e){
 				console.log(e.detail.value);
+				uni.showModal({
+					title:"pyh-nv",
+					content: "input提交："+JSON.stringify(e.detail.value)
+				})
 			},
 			nvAddressTap(e){
 				console.log("点击了地址");
 				// this.nvConfig.address.province = "湖南省"
+				uni.showModal({
+					title:"pyh-nv",
+					content: "点击了地址"
+				})
 			}
 		}
 	}
