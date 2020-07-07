@@ -23,6 +23,10 @@
 		methods: {
 			nvLogoTap(){
 				console.log("logo点击");
+				uni.showModal({
+					title:"pyh-nv",
+					content:"logo点击"
+				})
 			}
 		}
 	}
