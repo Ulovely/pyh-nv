@@ -47,6 +47,10 @@
 		methods: {
 			nvBtnTap(e){
 				console.log(e);
+				uni.showModal({
+					title:"pyh-nv",
+					content:JSON.stringify(e)
+				})
 			},
 			nvTabTap(e){
 				console.log(e.index);
