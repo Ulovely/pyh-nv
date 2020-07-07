@@ -29,9 +29,9 @@ Vue.component("nv",nv)
 
 在 ``script`` 中 config/nvConfig 说明
 
-所有配置都为选填,无需要可以不配置,不复杂!!!
-所有配置都为选填,无需要可以不配置,不复杂!!!
-所有配置都为选填,无需要可以不配置,不复杂!!!
+所有配置都为选填,无需要可以不配置,不复杂!!!</br>
+所有配置都为选填,无需要可以不配置,不复杂!!!</br>
+所有配置都为选填,无需要可以不配置,不复杂!!!</br>
 
 **config/nvConfig 属性说明：**
 
@@ -73,7 +73,7 @@ Vue.component("nv",nv)
 
 **config/nvConfig 内 transparent 配置说明：**
 
-|属性名						|类型	|默认值	      	说明												|
+|属性名						|类型	|默认值	      	|说明												|
 |---						|----	|---	      	|---												|
 |type						|String	|'background' 	|渐变类型,content为全透明渐变						|
 |anchor						|Number	|当前导航栏高度	|最终渐变位置										|
@@ -94,12 +94,12 @@ Vue.component("nv",nv)
 
 **uniapp官方api链接：**
 
-[路由与页面跳转同uniapp的api,详情请见:](https://uniapp.dcloud.net.cn/api/router?id=navigateto)
-[originalNavigationBarColor和navigationBarColor的配置同uniapp的api,setNavigationBarColor,详情请见:](https://uniapp.dcloud.net.cn/api/ui/navigationbar?id=setnavigationbarcolor)
+[路由与页面跳转同uniapp的api](https://uniapp.dcloud.net.cn/api/router?id=navigateto)</br>
+[originalNavigationBarColor和navigationBarColor的配置同uniapp的api,setNavigationBarColor](https://uniapp.dcloud.net.cn/api/ui/navigationbar?id=setnavigationbarcolor)
 
 **更新记录：**
 
-上传初版
+上传初版,更新说明文档
 
 **感谢：**
 
