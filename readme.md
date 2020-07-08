@@ -38,7 +38,7 @@ Vue.component("nv",nv)
 |属性名				|类型	|默认值	    |说明																			|
 |---				|----	|---	    |---																			|
 |title				|String	|'pyh-nv' 	|标题,在组件内写死或动态修改														|
-|position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，'static'或''或不传为随页面滚动				|
+|position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，其它值为静态导航栏，随页面滚动				|
 |hideback			|Boolean|false      |是否隐藏导航栏返回功能															|
 |bgColor			|String	|'#ffffff'	|导航栏背景色																	|
 |color				|String	|'#000000'	|导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）	|
@@ -47,7 +47,7 @@ Vue.component("nv",nv)
 |logo				|Object	|		   	|导航栏logo的配置,仅type为logo或search时有效,详细见下方logo说明					|
 |search				|Object	|		    |导航栏含搜索框的配置,仅type为search时有效,详细见下方search说明					|
 |transparent		|Object	|		    |导航栏渐变配置,详细见下方transparent说明											|
-|fixedAssist		|Object	|    		|固定/绝对定位时辅助高度容器,{bgColor:''}											|
+|fixedAssist		|Object	|    		|固定/绝对定位时辅助容器,{hide:false,bgColor:''}									|
 |address			|Object	|		    |搜索导航栏左地址配置,{province:'广东省'}											|
 |btn				|Array	|[]		    |导航栏右方按钮组,{text:'点击1'},{icon:''}										|
 |tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}								|
@@ -96,10 +96,14 @@ Vue.component("nv",nv)
 
 **更新记录：**
 
+版本1.0.4：
+1、修复fixed定位，辅助容器高度问题
+2、补充示例项目属性项
+
 版本1.0.3：
 优化内容如下：
 1、添加config.position属性，并且默认为'fixed'</br>
-2、添加config.fixedAssist属性———固定定位辅助导航栏，高度与导航栏一致，可设置背景色</br>
+2、添加config.fixedAssist属性———固定/绝对定位时辅助容器，高度与导航栏一致，可设置背景色和隐藏,{hide:false,bgColor:''}</br>
 3、原home返回键背景取消，如需要，需使用componentBgColor</br>
 4、状态栏字体颜色与导航栏字体颜色一致（状态栏字体只支持#000000或#ffffff）</br>
 5、config.color 改为导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）</br>
