@@ -26,7 +26,7 @@
 							icon:"/static/logo.png"
 						}
 					],
-					//中间tab组
+					// 中间tab组
 					// tabArr:[
 					// 	{
 					// 		title:"tab1",

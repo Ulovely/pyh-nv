@@ -14,22 +14,17 @@
 			return {
 				nvConfig:{
 					title:"pyh-nv 渐变导航栏",
-					bgColor:"#2b9939",
-					componentBgColor:"#2b9939",
-					color:"#fff",
+					bgColor:"#ffffff",
+					// componentBgColor:"#2b9939",
+					color:"#000000",
+					fixedAssist:{
+						hide:true,
+						// bgColor:"#2b9939"
+					},
 					transparent:{
+						initColor:"#ffffff",
 						// type:"content",//全透明为'content',背景透明不传或填'background'
 						// anchor:200,//最终距离
-						originalNavigationBarColor:{
-							frontColor:"#ffffff",
-							backgroundColor:"#2b9939",
-							animation:{duration:200,timingFunc:"easeInOut"}
-						},
-						navigationBarColor:{
-							frontColor:"#000000",
-							backgroundColor:"#2b9939",
-							animation:{duration:200,timingFunc:"easeInOut"}
-						}
 					}
 				}
 			}

@@ -29,26 +29,28 @@ Vue.component("nv",nv)
 
 在 ``script`` 中 config/nvConfig 说明
 
-所有配置都为选填,无需要可以不配置,不复杂!!!
-所有配置都为选填,无需要可以不配置,不复杂!!!
-所有配置都为选填,无需要可以不配置,不复杂!!!
+所有配置都为选填,无需要可以不配置,不复杂!!!</br>
+所有配置都为选填,无需要可以不配置,不复杂!!!</br>
+所有配置都为选填,无需要可以不配置,不复杂!!!</br>
 
 **config/nvConfig 属性说明：**
 
-|属性名				|类型	|默认值	                    |说明											|
-|---				|----	|---	                    |---											|
-|title				|String	|'pyh-nv'    |标题,在组件内写死或动态修改										|
-|hideback			|Boolean|false       |是否隐藏导航栏返回功能											|
-|bgColor			|String	|'#fff'	     |导航栏背景色													|
-|color				|String	|'#333'	     |导航栏字体色													|
-|componentBgColor	|String	|'#f8f8f8'	 |导航栏组件背景色(可被覆盖)										|
-|type				|String	|'default'	 |导航栏类型(默认为通用),还有logo和search							|
-|logo				|Object	|		     |导航栏logo的配置,仅type为logo或search时有效,详细见下方logo说明	|
-|search				|Object	|		     |导航栏含搜索框的配置,仅type为search时有效,详细见下方search说明	|
-|transparent		|Object	|		     |导航栏渐变配置,详细见下方transparent说明						|
-|address			|Object	|		     |搜索导航栏左地址配置,{province:'广东省'}						|
-|btn				|Array	|[]		     |导航栏右方按钮组,{text:'点击1'},{icon:''}						|
-|tabArr				|Array	|[]		     |导航栏中间tab切换,{title:'',active:true,hide:false}			|
+|属性名				|类型	|默认值	    |说明																			|
+|---				|----	|---	    |---																			|
+|title				|String	|'pyh-nv' 	|标题,在组件内写死或动态修改														|
+|position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，其它值为静态导航栏，随页面滚动				|
+|hideback			|Boolean|false      |是否隐藏导航栏返回功能															|
+|bgColor			|String	|'#ffffff'	|导航栏背景色																	|
+|color				|String	|'#000000'	|导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）	|
+|componentBgColor	|String	|'#f8f8f8'	|导航栏组件背景色(可被覆盖)，如果有设置，回到首页的返回键有背景色					|
+|type				|String	|'default'	|导航栏类型(默认为通用),还有logo和search											|
+|logo				|Object	|		   	|导航栏logo的配置,仅type为logo或search时有效,详细见下方logo说明					|
+|search				|Object	|		    |导航栏含搜索框的配置,仅type为search时有效,详细见下方search说明					|
+|transparent		|Object	|		    |导航栏渐变配置,详细见下方transparent说明											|
+|fixedAssist		|Object	|    		|固定/绝对定位时辅助容器,{hide:false,bgColor:''}									|
+|address			|Object	|		    |搜索导航栏左地址配置,{province:'广东省'}											|
+|btn				|Array	|[]		    |导航栏右方按钮组,{text:'点击1'},{icon:''}										|
+|tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}								|
 
 **config/nvConfig 内 logo 配置说明：**
 
@@ -73,12 +75,11 @@ Vue.component("nv",nv)
 
 **config/nvConfig 内 transparent 配置说明：**
 
-|属性名						|类型	|默认值	      	说明												|
-|---						|----	|---	      	|---												|
-|type						|String	|'background' 	|渐变类型,content为全透明渐变						|
-|anchor						|Number	|当前导航栏高度	|最终渐变位置										|
-|originalNavigationBarColor	|Object	|	     		|状态栏变色,同时设置navigationBarColor生效,同set		|
-|navigationBarColor			|Object	|	     		|状态栏变色,同时设置originalNavigationBarColor生效	|
+|属性名						|类型	|默认值	      	|说明													|
+|---						|----	|---	      	|---													|
+|type						|String	|'background' 	|渐变类型,content为全透明渐变							|
+|anchor						|Number	|当前导航栏高度	|最终渐变位置											|
+|initColor					|String	|'#ffffff'  	|导航栏与状态栏初始色,（状态栏字体只支持#000000或#ffffff）	|
 
 
 **组件pyh-nv 事件说明(详情请参考示例项目)：**
@@ -92,15 +93,29 @@ Vue.component("nv",nv)
 |nvBtnTap			|右方按钮组点击事件,仅右方按钮存在时生效		|
 |nvTabTap			|中间tab组点击事件,仅中间tab按钮存在时生效	|
 
-**uniapp官方api链接：**
-
-[路由与页面跳转同uniapp的api,详情请见:](https://uniapp.dcloud.net.cn/api/router?id=navigateto)
-[originalNavigationBarColor和navigationBarColor的配置同uniapp的api,setNavigationBarColor,详情请见:](https://uniapp.dcloud.net.cn/api/ui/navigationbar?id=setnavigationbarcolor)
 
 **更新记录：**
 
-上传初版
+版本1.0.4：
+1、修复fixed定位，辅助容器高度问题
+2、补充示例项目属性项
+
+版本1.0.3：
+优化内容如下：
+1、添加config.position属性，并且默认为'fixed'</br>
+2、添加config.fixedAssist属性———固定/绝对定位时辅助容器，高度与导航栏一致，可设置背景色和隐藏,{hide:false,bgColor:''}</br>
+3、原home返回键背景取消，如需要，需使用componentBgColor</br>
+4、状态栏字体颜色与导航栏字体颜色一致（状态栏字体只支持#000000或#ffffff）</br>
+5、config.color 改为导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）</br>
+6、transparent.initColor代替之前的状态栏字体颜色设置，该值为导航栏与状态栏初始色（状态栏字体只支持#000000或#ffffff）</br>
+7、修改默认字体色为'#000000'
+
+版本1.0.2：优化体验，更易上手，更友好
+
+版本1.0.1：修改文档
+
+版本1.0.0：上传初版
 
 **感谢：**
 
-> 有更多优化建议和需求，请联系作者 pyh 。谢谢！
+> 有更多优化建议和需求，请联系作者 panyh 。谢谢！
