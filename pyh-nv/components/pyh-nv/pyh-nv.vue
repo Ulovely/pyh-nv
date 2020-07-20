@@ -236,7 +236,7 @@
 	}
 </script>
 <style lang="scss">
-	@import "../../iconfont.wxss";
+	@import "./iconfont.wxss";
 	
 	.iconfont {
 	  font-family: "iconfont" !important;
