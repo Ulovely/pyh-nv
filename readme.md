@@ -64,6 +64,7 @@ Vue.component("nv",nv)
 
 |属性名				|类型	|默认值	    |说明													|
 |---				|----	|---	    |---													|
+|value				|String	|''		    |input的初始值，如需动态赋值，参考示例项目					|
 |bgColor			|String	|'#f8f8f8'  |组件背景色,覆盖	componentBgColor						|
 |input				|Boolean|false	    |输入框提示语样式										|
 |url				|String	|''		    |input为false时生效,点击navigateTo到url					|
@@ -95,6 +96,9 @@ Vue.component("nv",nv)
 
 
 **更新记录：**
+
+版本1.0.6：
+1、补充文档对于搜索框赋值的说明，添加动态赋值功能
 
 版本1.0.5：
 1、补充单组件文件缺少的文件iconfont.wxss
