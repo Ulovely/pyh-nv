@@ -157,6 +157,11 @@
 			nvAddressTap(e){
 				this.$emit("nvAddressTap")
 			},
+			initInputValue(value){
+				var e = {detail:{value:value}}
+				this.inputValue = e.detail.value
+				if(this.config.type=="search"&&this.config.search.input)this.$emit("nvInput",e)
+			},
 			inputChange(e){
 				//输入框输入
 				this.inputValue = e.detail.value
