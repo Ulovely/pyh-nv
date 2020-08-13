@@ -23,7 +23,7 @@
 						<view class="nvSForm">
 							<view class="nvSBox" :style="{'background':(config.search.bgColor||config.componentBgColor||'')}">
 								<image src="/static/searchIcon.png" mode="aspectFill" class="searchIcon"></image>
-								<input type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @tap.stop="linkTo" :data-url="config.search.url" :data-type="config.search.linkType||''" data-isInput="true" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
+								<input class="nvInput" type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @tap.stop="linkTo" :data-url="config.search.url" :data-type="config.search.linkType||''" data-isInput="true" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
 								<image src="/static/searchClose.png" mode="aspectFill" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></image>
 							</view>
 							<view class='nvSBtn' @tap.stop="formSubmit" v-if="config.search.btn&&config.search.input" :style="config.search.btn.style||''">{{config.search.btn.text||'搜索'}}</view>
@@ -254,9 +254,9 @@
 	.nvHeight{width: 100%;height: 88rpx;box-sizing: content-box!important;padding-top: var(--status-bar-height);}
 	.nvFixed{position: absolute;top: 0;height: 88rpx;left: 0;width: 100%;box-sizing: content-box!important;z-index: 992;background: inherit;padding-top: var(--status-bar-height);}
 	.nvContent{position: absolute;bottom: 0;left: 0;width: 100%;height: 88rpx;display: flex;padding: 0 20rpx;justify-content: space-between;align-items: center;}
-	input{font-size: 30rpx;width: 100%;}
+	.nvInput{font-size: 30rpx;width: 100%;}
 	.searchIcon{width: 42rpx;height: 42rpx;margin-right: 20rpx;}
-	.nvTitle{position: absolute;top: 0;width: 100%;text-align: center;line-height: 88rpx;display: flex;align-items: center;justify-content: center;padding: 0 80rpx;left: 0;}
+	.nvTitle{position: absolute;top: 0;width: 100%;text-align: center;line-height: 88rpx;display: flex;align-items: center;justify-content: center;padding: 0 80rpx;left: 0;font-size: 32rpx;font-weight: bold;}
 	.androidwx{text-align: left;padding-left: 80rpx;justify-content: flex-start!important;}
 	.nvback{font-size: 54rpx;position: absolute;left: 6rpx;padding-left: 8rpx;}
 	.nvback:after{font-family: "iconfont";content:"\e743";}
@@ -279,7 +279,7 @@
 	.nvSForm{display: flex;flex: 1;justify-content: space-between;align-items: center;}
 	.nvSBox{display: flex;flex: 1;border-radius: 44rpx;background: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
 	.nvSBtn{color: #fff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;background: #2b9939;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;}
-	.nvSForm input{flex: 1;}
+	.nvSForm .nvInput{flex: 1;}
 	.nvSClose{width: 30rpx;height: 30rpx;}
 	
 	//右边按钮组
@@ -300,4 +300,11 @@
 	.nvLogoBox,.nvSearchBox,.nvDefault{padding-right: 200rpx;}
 	.nvSBtn,.nvBtnGroup{display: none;}
 	/* #endif */
+	
+	//更换主色（可用uni.scss）
+	.nvSBtn{background: $mainColor;}
+	.nvTabBox .nvTab.active{
+		.nTTxt{color: $mainColor;}
+		.line{background: $mainColor;}
+	}
 </style>
