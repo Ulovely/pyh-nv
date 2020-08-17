@@ -85,6 +85,13 @@
 				}
 			};
 		},
+		watch:{
+			"config.search.value":function(value){
+				var e = {detail:{value:value}}
+				this.inputValue = e.detail.value
+				if(this.config.type=="search"&&this.config.search.input)this.$emit("nvInput",e)
+			}
+		},
 		computed:{
 			statusHeight(){return uni.getSystemInfoSync().statusBarHeight+'px'},
 			isFixed(){return this.config.transparent||this.config.position=='fixed'||this.config.position=='absolute'||!this.config.position},
@@ -157,11 +164,6 @@
 			nvAddressTap(e){
 				this.$emit("nvAddressTap")
 			},
-			initInputValue(value){
-				var e = {detail:{value:value}}
-				this.inputValue = e.detail.value
-				if(this.config.type=="search"&&this.config.search.input)this.$emit("nvInput",e)
-			},
 			inputChange(e){
 				//输入框输入
 				this.inputValue = e.detail.value
@@ -194,7 +196,6 @@
 				if(e.scrollTop<=anchor){
 					this.transparent.opacity = op
 					if(this.config.transparent.initColor){
-						// ,animation:{duration:300}
 						if(op>=.5){
 							this.transparent.color=this.transparent.finishColor
 							uni.setNavigationBarColor({frontColor:this.transparent.finishColor,backgroundColor:this.config.bgColor||"#ffffff"})
@@ -302,9 +303,9 @@
 	/* #endif */
 	
 	//更换主色（可用uni.scss）
-	.nvSBtn{background: $mainColor;}
-	.nvTabBox .nvTab.active{
-		.nTTxt{color: $mainColor;}
-		.line{background: $mainColor;}
-	}
+	// .nvSBtn{background: $mainColor;}
+	// .nvTabBox .nvTab.active{
+	// 	.nTTxt{color: $mainColor;}
+	// 	.line{background: $mainColor;}
+	// }
 </style>
