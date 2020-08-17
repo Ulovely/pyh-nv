@@ -64,7 +64,7 @@ Vue.component("nv",nv)
 
 |属性名				|类型	|默认值	    |说明													|
 |---				|----	|---	    |---													|
-|value				|String	|''		    |input的初始值，如需动态赋值，参考示例项目					|
+|value				|String	|''		    |input的初始值，如需动态赋值，必须初始化					|
 |bgColor			|String	|'#f8f8f8'  |组件背景色,覆盖	componentBgColor						|
 |input				|Boolean|false	    |输入框提示语样式										|
 |url				|String	|''		    |input为false时生效,点击navigateTo到url					|
@@ -96,6 +96,10 @@ Vue.component("nv",nv)
 
 
 **更新记录：**
+
+版本1.0.8：
+1、修改搜索框动态赋值方式，更加方便，直接修改search.value，需要初始化value，旧的赋值方式已废弃。（重要）
+2、注释样式：上版本组件内样式，没有注释uni.scss的部分
 
 版本1.0.7：
 1、修改标题字体的size和weight,等同于uniapp的h5样式</br>
