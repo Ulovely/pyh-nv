@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv ref="nv" :config="nvConfig" @nvInput="nvInput" @nvFormSubmit="nvFormSubmit" @nvAddressTap="nvAddressTap"></nv>
+		<nv :config="nvConfig" @nvInput="nvInput" @nvFormSubmit="nvFormSubmit" @nvAddressTap="nvAddressTap"></nv>
 	</view>
 </template>
 
@@ -17,7 +17,7 @@
 						placeholder:"搜索",
 						// placeholderStyle:{color:"#333"},
 						//confirmType:"search",//同input的confirm-type
-						value:"",
+						value:"",//如需要动态赋值，必须初始化
 						input:true,
 						// url:"/pages/index/index",
 						btn:{}
@@ -37,9 +37,9 @@
 			}
 		},
 		onLoad() {
-			//这里是动态赋值的示例代码，需要组件上添加属性 ref="nv"
+			//这里是动态赋值的示例代码，如需要动态赋值，必须初始化search.value
 			// setTimeout(()=>{
-			// 	this.$refs.nv.initInputValue("动态赋值例子")
+			// 	this.nvConfig.search.value = "赋值例子"
 			// },2000)
 		},
 		methods: {
