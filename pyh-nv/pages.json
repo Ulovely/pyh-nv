@@ -22,6 +22,10 @@
             "path" : "pages/pyh-nv/transparent/transparent",
             "style" : {}
         }
+        ,{
+            "path" : "pages/other/webview/webview",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

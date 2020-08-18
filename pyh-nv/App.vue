@@ -1,5 +1,9 @@
 <script>
 	export default {
+		globalData:{
+			HOME:"",
+			NAME:""
+		},
 		onLaunch: function() {
 			
 		},

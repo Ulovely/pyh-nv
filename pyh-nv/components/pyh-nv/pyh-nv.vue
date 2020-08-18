@@ -7,7 +7,7 @@
 				<!-- 单logo -->
 				<view class="nvContent" v-if="config.type=='logo'">
 					<view :class="['nvLogoBox',{'androidwx':androidwx}]">
-						<image :src="config.logo.src?config.logo.src:'/static/logo.png'" class="nvLogo" :style="config.logo.style" mode="widthFix" @tap.stop="nvLogoTap"></image>
+						<image :src="config.logo.src?config.logo.src:'/static/logo.png'" class="nvLogo" :style="config.logo.style" :mode="config.logo.style&&config.logo.style.height?'aspectFill':'widthFix'" @tap.stop="nvLogoTap"></image>
 					</view>
 					<view :class="['nvback',{'nvhome':isSharePage&&!config.closeCheckback}]" @tap.stop="linkTo" :style="{'background':(isSharePage&&!config.closeCheckback?(config.componentBgColor||''):'')}" data-type="navigateBack" v-if="!config.hideback"></view>
 				</view>
@@ -62,7 +62,7 @@
 	//#ifdef APP-PLUS
 	platform="app"
 	//#endif
-	//#ifdef MP-WEIXIN
+	//#ifdef MP
 	platform="xcx"
 	//#endif
 	export default {
@@ -72,10 +72,10 @@
 		},
 		data() {
 			return {
-				platform:platform||'xcx',
-				title:"pyh-nv",
+				platform:platform||'mobile',
+				title:getApp().globalData.NAME||"pyh-nv",
 				currentPages:getCurrentPages().length||1,
-				bootPage:"/pages/index/index",
+				home:getApp().globalData.HOME||"/pages/index/index",
 				inputValue:'',
 				transparent:{
 					initColor:"#ffffff",
@@ -209,33 +209,55 @@
 				}
 			},
 			linkTo(e) {
-				//跳转事件
 				var url=e.currentTarget.dataset.url,
 				type=e.currentTarget.dataset.type,
 				isInput=e.currentTarget.dataset.isInput;
-				
 				if(isInput&&this.config.type=="search"&&this.config.search&&this.config.search.input){
 					return
 				}
-				
-				if(!url&&!type)return;
-				if(url=="/"||url==".")return
-				if (type == "switchTab") {
-					uni.switchTab({ url: url })
-				} else if (type == "redirectTo") {
-					uni.redirectTo({ url: url })
-				} else if (type == "reLaunch") {
-					uni.reLaunch({ url: url })
-				} else if (type == "navigateBack") {
-					if(this.currentPages==1){
-						uni.reLaunch({url:this.bootPage})
-					}else{
-						uni.navigateBack()
-					}
+				if(this.nvRoute){
+					this.nvRoute(url,type)
 				}else{
-					uni.navigateTo({
-						url:url
-					})
+					if(!url&&!type)return;
+					if(url=="/"||url==".")return
+					if(typeof(url)=="number"){
+						if(this.currentPages==1){
+							uni.reLaunch({url:this.home})
+						}else{
+							uni.navigateBack({delta:Math.abs(url||1)})
+						}
+						return
+					}
+					if(type){
+						if (type.indexOf("ab")>-1) {
+							uni.switchTab({ url: url })
+						} else if (type.indexOf("redirect")>-1||type.indexOf("rep")>-1) {
+							uni.redirectTo({ url: url })
+						} else if (type.indexOf("aunch")>-1) {
+							uni.reLaunch({ url: url })
+						} else if (type.indexOf("ack")>-1) {
+							if(this.currentPages==1){
+								uni.reLaunch({url:this.home})
+							}else{
+								uni.navigateBack()
+							}
+						}else{
+							uni.navigateTo({url:url})
+						}
+					}else{
+						if(url.indexOf("/")==0||url.indexOf(".")==0){
+							uni.navigateTo({url:url})
+						}else{
+							if(url.indexOf("?")>0){url+="&platform="+platform}else{url+="?platform="+platform}
+							if(platform=="mobile"){
+								top.location.href=url
+							}else if(platform=="app"){
+								plus.runtime.openUrl(url);
+							}else{
+								uni.navigateTo({url:"/pages/other/webview/webview?src="+url.replace("?","&")})
+							}
+						}
+					}
 				}
 			}
 		}
@@ -249,7 +271,13 @@
 	  font-size: 30rpx;
 	  font-style: normal;
 	}
-	.nvBox{width: 100%;background: #fff;z-index: 992;color: #000000;box-sizing: border-box;}
+	
+	//主色，可以设置uni.scss的$mainColor
+	//或
+	//uni.scss未定义或定义为null,修改下方$mainColor的默认值
+	$mainColor: #2b9939 !default;
+	
+	.nvBox{width: 100%;background-color: #fff;z-index: 992;color: #000000;box-sizing: border-box;}
 	.nvBox *,.nvContent,.nvTitle{box-sizing: border-box;}
 	.nvBox-sup{z-index: 991;}
 	.nvHeight{width: 100%;height: 88rpx;box-sizing: content-box!important;padding-top: var(--status-bar-height);}
@@ -272,14 +300,14 @@
 	//含搜索框
 	.nvSearchBox{width: 100%;display: flex;}
 	.nvSearchLogo{margin-right: 20rpx;}
-	.nvAddress{background: #f8f8f8;border-radius: 44rpx;display: flex;justify-content: center;align-items: center;padding: 0 16rpx 0 10rpx;font-size: 28rpx;line-height: 30rpx;margin-right: 20rpx;color: #000000;}
+	.nvAddress{background-color: #f8f8f8;border-radius: 44rpx;display: flex;justify-content: center;align-items: center;padding: 0 16rpx 0 10rpx;font-size: 28rpx;line-height: 30rpx;margin-right: 20rpx;color: #000000;}
 	.nvAddress .nvAddressIcon{width: 30rpx;height: auto;margin-right: 4rpx;font-size: 34rpx;}
 	.nvAddress .nvAddressIcon:after{font-family: "iconfont";content:"\e613";}
 	.nvAddress .nvAddressText{width: 84rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 	.searchPlac{color: #bbb;}
 	.nvSForm{display: flex;flex: 1;justify-content: space-between;align-items: center;}
-	.nvSBox{display: flex;flex: 1;border-radius: 44rpx;background: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
-	.nvSBtn{color: #fff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;background: #2b9939;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;}
+	.nvSBox{display: flex;flex: 1;border-radius: 44rpx;background-color: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
+	.nvSBtn{color: #fff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;background-color: $mainColor;}
 	.nvSForm .nvInput{flex: 1;}
 	.nvSClose{width: 30rpx;height: 30rpx;}
 	
@@ -292,8 +320,10 @@
 	.nvTabBox .nvTab{display: flex;flex-direction: column;align-items: center;justify-content: flex-end;line-height: 80rpx;margin: 0 10rpx;}
 	.nvTabBox .nvTab .nTTxt{padding: 0 10rpx;}
 	.nvTabBox .nvTab .line{height: 4rpx;border-radius: 2rpx;background: none;width: 100%;}
-	.nvTabBox .nvTab.active .nTTxt{color: #2b9939;}
-	.nvTabBox .nvTab.active .line{background: #2b9939;}
+	.nvTabBox .nvTab.active{
+		.nTTxt{color: $mainColor;}
+		.line{background-color: $mainColor;}
+	}
 	.nvTabBox .nvTabHide{width:0;height:0;margin:0;overflow:hidden;}
 	
 	//小程序胶囊留位
@@ -301,11 +331,4 @@
 	.nvLogoBox,.nvSearchBox,.nvDefault{padding-right: 200rpx;}
 	.nvSBtn,.nvBtnGroup{display: none;}
 	/* #endif */
-	
-	//更换主色（可用uni.scss）
-	// .nvSBtn{background: $mainColor;}
-	// .nvTabBox .nvTab.active{
-	// 	.nTTxt{color: $mainColor;}
-	// 	.line{background: $mainColor;}
-	// }
 </style>
