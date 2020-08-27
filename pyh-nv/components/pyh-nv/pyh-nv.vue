@@ -22,9 +22,9 @@
 						</view>
 						<view class="nvSForm">
 							<view class="nvSBox" :style="{'background':(config.search.bgColor||config.componentBgColor||'')}">
-								<image src="/static/searchIcon.png" mode="aspectFill" class="searchIcon"></image>
+								<icon type="search" size="18" class="searchIcon"></icon>
 								<input class="nvInput" type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @tap.stop="linkTo" :data-url="config.search.url" :data-type="config.search.linkType||''" data-isInput="true" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
-								<image src="/static/searchClose.png" mode="aspectFill" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></image>
+								<icon type="clear" size="15" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></icon>
 							</view>
 							<view class='nvSBtn' @tap.stop="formSubmit" v-if="config.search.btn&&config.search.input" :style="config.search.btn.style||''">{{config.search.btn.text||'搜索'}}</view>
 						</view>
@@ -52,6 +52,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="nvToTop" :style="(config.toTop&&config.toTop.style)||''" v-show="config.toTop&&showToTop" @tap.stop="toTopTap"></view>
 	</view>
 </template>
 <script>
@@ -77,6 +78,7 @@
 				currentPages:getCurrentPages().length||1,
 				home:getApp().globalData.HOME||"/pages/index/index",
 				inputValue:'',
+				showToTop:false,
 				transparent:{
 					initColor:"#ffffff",
 					finishColor:"#000000",
@@ -94,6 +96,7 @@
 		},
 		computed:{
 			statusHeight(){return uni.getSystemInfoSync().statusBarHeight+'px'},
+			safeArea(){return this.config.safeArea||uni.getSystemInfoSync().safeArea.height},
 			isFixed(){return this.config.transparent||this.config.position=='fixed'||this.config.position=='absolute'||!this.config.position},
 			isSharePage(){return this.currentPages==1},
 			navigatorHeight(){return parseInt(88*uni.getSystemInfoSync().windowWidth/750)+uni.getSystemInfoSync().statusBarHeight},
@@ -189,6 +192,11 @@
 				var e = {index:parseInt(e.currentTarget.dataset.index)};
 				this.$emit("nvTabTap",e)
 			},
+			toTopTap(e){
+				this.showToTop=false
+				uni.pageScrollTo({scrollTop:0,duration:this.config.toTop.duration||(this.config.toTop.duration===0?0:300)})
+				this.$emit("nvToTop")
+			},
 			pageScroll(e){
 				var anchor = this.navigatorHeight;
 				if(this.config.transparent.anchor)anchor=this.config.transparent.anchor
@@ -206,6 +214,14 @@
 					}
 				}else{
 					this.transparent.opacity = 1
+				}
+				if(this.config.toTop){
+					if(this.showToTop&&e.scrollTop<this.safeArea){
+						this.showToTop=false
+					}
+					if(!this.showToTop&&e.scrollTop>=this.safeArea){
+						this.showToTop=true
+					}
 				}
 			},
 			linkTo(e) {
@@ -284,7 +300,7 @@
 	.nvFixed{position: absolute;top: 0;height: 88rpx;left: 0;width: 100%;box-sizing: content-box!important;z-index: 992;background: inherit;padding-top: var(--status-bar-height);}
 	.nvContent{position: absolute;bottom: 0;left: 0;width: 100%;height: 88rpx;display: flex;padding: 0 20rpx;justify-content: space-between;align-items: center;}
 	.nvInput{font-size: 30rpx;width: 100%;}
-	.searchIcon{width: 42rpx;height: 42rpx;margin-right: 20rpx;}
+	.searchIcon{margin-right: 20rpx;}
 	.nvTitle{position: absolute;top: 0;width: 100%;text-align: center;line-height: 88rpx;display: flex;align-items: center;justify-content: center;padding: 0 80rpx;left: 0;font-size: 32rpx;font-weight: bold;}
 	.androidwx{text-align: left;padding-left: 80rpx;justify-content: flex-start!important;}
 	.nvback{font-size: 54rpx;position: absolute;left: 6rpx;padding-left: 8rpx;}
@@ -309,7 +325,7 @@
 	.nvSBox{display: flex;flex: 1;border-radius: 44rpx;background-color: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
 	.nvSBtn{color: #fff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;background-color: $mainColor;}
 	.nvSForm .nvInput{flex: 1;}
-	.nvSClose{width: 30rpx;height: 30rpx;}
+	.nvSClose{}
 	
 	//右边按钮组
 	.nvBtnGroup{position: absolute;right: 20rpx;top: 0;height: 88rpx;display: flex;align-items: center;justify-content: center;z-index: 993;font-size: 28rpx;color: #000000;}
@@ -325,6 +341,10 @@
 		.line{background-color: $mainColor;}
 	}
 	.nvTabBox .nvTabHide{width:0;height:0;margin:0;overflow:hidden;}
+	
+	//回到顶部
+	.nvToTop{position: fixed;bottom: 200rpx;right: 40rpx;z-index: 992;background: #fff;border-radius: 50%;width: 80rpx;height: 80rpx;text-align: center;line-height: 80rpx;font-size: 46rpx;box-shadow: 2rpx 2rpx 2rpx 2rpx #ddd;}
+	.nvToTop:after{font-family: "iconfont";content:"\e64d";}
 	
 	//小程序胶囊留位
 	/* #ifdef MP-WEIXIN */

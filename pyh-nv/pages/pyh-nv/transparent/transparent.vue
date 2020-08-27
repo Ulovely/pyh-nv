@@ -3,7 +3,7 @@
 		<nv ref="nv" :config="nvConfig"></nv>
 		<view class="listBox">
 			<view style="height: var(--status-bar-height);width: 100%;"></view>
-			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
+			<view class="list" v-for="(item,i) in 100" :key="i">{{i}}</view>
 		</view>
 	</view>
 </template>
