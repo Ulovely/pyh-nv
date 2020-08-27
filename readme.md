@@ -44,6 +44,8 @@ Vue.component("nv",nv)
 |color				|String	|'#000000'	|导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）	|
 |componentBgColor	|String	|'#f8f8f8'	|导航栏组件背景色(可被覆盖)，如果有设置，回到首页的返回键有背景色					|
 |type				|String	|'default'	|导航栏类型(默认为通用),还有logo和search											|
+|safeArea			|Number	|安全高度	|暂时只用于控制滚动显示，比如回到顶部												|
+|toTop				|Object |			|是否使用回到顶部，有该属性就是使用,详细见下方toTop说明}							|
 |logo				|Object	|		   	|导航栏logo的配置,仅type为logo或search时有效,详细见下方logo说明					|
 |search				|Object	|		    |导航栏含搜索框的配置,仅type为search时有效,详细见下方search说明					|
 |transparent		|Object	|		    |导航栏渐变配置,详细见下方transparent说明											|
@@ -52,13 +54,20 @@ Vue.component("nv",nv)
 |btn				|Array	|[]		    |导航栏右方按钮组,{text:'点击1'},{icon:''}										|
 |tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}								|
 
+**config/nvConfig 内 toTop 配置说明：**
+
+|属性名				|类型	|默认值	                    |说明								|
+|---				|----	|---	                    |---								|
+|duration			|Number	|300   						|回到顶部的滚动动画时间（ms）			|
+|style				|Object	|{}	     					|样式配置							|
+
 **config/nvConfig 内 logo 配置说明：**
 
 |属性名				|类型	|默认值	                    |说明								|
 |---				|----	|---	                    |---								|
 |src				|String	|'/static/logo.png'   		|logo路径							|
 |url				|String	|''						    |如果传值,点击logo会reLaunch到该url	|
-|style				|Object	|''	     					|样式配置							|
+|style				|Object	|{}	     					|样式配置							|
 
 **config/nvConfig 内 search 配置说明：**
 
@@ -97,32 +106,36 @@ Vue.component("nv",nv)
 
 **更新记录：**
 
-版本1.0.9：
+版本1.1.0：</br>
+1、使用icon代替图片图标,完全独立组件</br>
+2、添加回到顶部的功能
+
+版本1.0.9：</br>
 1、单logo模式，支持全样式设置，可实现全背景图等</br>
 2、优化了路由跳转判断及多端跳转</br>
 3、组件内，利用了scss的特性，优化了主色的修改</br>
 4、示例项目内添加了全局变量globalData，以及全路由封装函数nvRoute，组件也做了兼容处理，可快速设置配置，如需路由做特殊处理（比如history模式等），可使用封装的nvRoute统一处理
 
-版本1.0.8：
+版本1.0.8：</br>
 1、修改搜索框动态赋值方式，更加方便，直接修改search.value，需要初始化value，旧的赋值方式已废弃。（重要）</br>
 2、注释样式：上版本组件内样式，没有注释uni.scss的部分
 
-版本1.0.7：
+版本1.0.7：</br>
 1、修改标题字体的size和weight,等同于uniapp的h5样式</br>
 2、补充组件主色覆盖样式的注释，可去除注释快速修改，也可使用uni.scss快速修改主色
 
-版本1.0.6：
+版本1.0.6：</br>
 1、补充文档对于搜索框赋值的说明，添加动态赋值功能
 
-版本1.0.5：
+版本1.0.5：</br>
 1、补充单组件文件缺少的文件iconfont.wxss
 
-版本1.0.4：
+版本1.0.4：</br>
 1、修复fixed定位，辅助容器高度问题</br>
 2、补充示例项目属性项
 
-版本1.0.3：
-优化内容如下：
+版本1.0.3：</br>
+优化内容如下：</br>
 1、添加config.position属性，并且默认为'fixed'</br>
 2、添加config.fixedAssist属性———固定/绝对定位时辅助容器，高度与导航栏一致，可设置背景色和隐藏,{hide:false,bgColor:''}</br>
 3、原home返回键背景取消，如需要，需使用componentBgColor</br>
