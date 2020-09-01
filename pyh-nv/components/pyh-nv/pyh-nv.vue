@@ -300,7 +300,12 @@
 	.nvFixed{position: absolute;top: 0;height: 88rpx;left: 0;width: 100%;box-sizing: content-box!important;z-index: 992;background: inherit;padding-top: var(--status-bar-height);}
 	.nvContent{position: absolute;bottom: 0;left: 0;width: 100%;height: 88rpx;display: flex;padding: 0 20rpx;justify-content: space-between;align-items: center;}
 	.nvInput{font-size: 30rpx;width: 100%;}
-	.searchIcon{margin-right: 20rpx;}
+	.searchIcon{
+		margin-right: 20rpx;
+		/* #ifdef MP */
+		height: 18px;
+		/* #endif */
+	}
 	.nvTitle{position: absolute;top: 0;width: 100%;text-align: center;line-height: 88rpx;display: flex;align-items: center;justify-content: center;padding: 0 80rpx;left: 0;font-size: 32rpx;font-weight: bold;}
 	.androidwx{text-align: left;padding-left: 80rpx;justify-content: flex-start!important;}
 	.nvback{font-size: 54rpx;position: absolute;left: 6rpx;padding-left: 8rpx;}
@@ -325,7 +330,11 @@
 	.nvSBox{display: flex;flex: 1;border-radius: 44rpx;background-color: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
 	.nvSBtn{color: #fff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;background-color: $mainColor;}
 	.nvSForm .nvInput{flex: 1;}
-	.nvSClose{}
+	.nvSClose{
+		/* #ifdef MP */
+		height: 15px;
+		/* #endif */
+	}
 	
 	//右边按钮组
 	.nvBtnGroup{position: absolute;right: 20rpx;top: 0;height: 88rpx;display: flex;align-items: center;justify-content: center;z-index: 993;font-size: 28rpx;color: #000000;}
