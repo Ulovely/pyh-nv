@@ -40,7 +40,7 @@ Vue.component("nv",nv)
 |title				|String	|'pyh-nv' 	|标题,在组件内写死或动态修改														|
 |position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，其它值为静态导航栏，随页面滚动				|
 |hideback			|Boolean|false      |是否隐藏导航栏返回功能															|
-|bgColor			|String	|'#ffffff'	|导航栏背景色																	|
+|bgColor			|String	|'#ffffff'	|导航栏背景色,如果使用渐变色，transparent渐变属性失效|
 |color				|String	|'#000000'	|导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）	|
 |componentBgColor	|String	|'#f8f8f8'	|导航栏组件背景色(可被覆盖)，如果有设置，回到首页的返回键有背景色					|
 |type				|String	|'default'	|导航栏类型(默认为通用),还有logo和search											|
@@ -105,6 +105,9 @@ Vue.component("nv",nv)
 
 
 **更新记录：**
+
+版本1.1.2：</br>
+1、添加通用导航栏渐变色背景功能（渐变色背景会导致transparent背景色渐变失效）
 
 版本1.1.1：</br>
 1、修复icon原生组件在小程序内高度铺满导致的错位问题
