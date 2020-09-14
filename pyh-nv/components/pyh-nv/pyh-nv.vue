@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class='nvHeight' :style="[{'padding-top':statusHeight},{'background':(config.fixedAssist&&config.fixedAssist.bgColor)||''},{'display':(config.fixedAssist&&config.fixedAssist.hide?'none':'')}]" v-if="isFixed"></view>
-		<view class="nvBox" :style="[{'color':((config.transparent&&config.transparent.initColor)?transparent.color:'')||config.color||''},{'background':(config.bgColor||config.transparent)?'rgba('+getRgbString+','+(config.transparent&&config.transparent.type!='content'?transparent.opacity:1)+')':'#fff'},{'opacity':config.transparent&&config.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':0}]">
+		<view class="nvBox" :style="[{'color':((config.transparent&&config.transparent.initColor)?transparent.color:'')||config.color||''},{'background':getBgColor},{'opacity':config.transparent&&config.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':0}]">
 			<view class='nvHeight' :style="[{'padding-top':statusHeight}]"></view>
 			<view class='nvFixed' :style="{'padding-top':statusHeight}">
 				<!-- 单logo -->
@@ -106,28 +106,25 @@
 				}else{
 					return false
 				}
-			}, 
-			getRgbString(){
-				var bgColor = this.config.bgColor||"#ffffff",returnString=""
-				if(bgColor.indexOf(",")>-1){
-					returnString = bgColor.split('(')[1].replace(')','').split(',').slice(0,3).join(",")
+			},
+			getBgColor(){
+				var that = this;
+				if(this.config.bgColor&&this.config.bgColor.indexOf("gradient")>-1){
+					return this.config.bgColor
 				}else{
-					if(bgColor.length==4)bgColor = bgColor+bgColor.charAt(bgColor.length-1)+bgColor.charAt(bgColor.length-1)+bgColor.charAt(bgColor.length-1)
-					var string = bgColor.replace("#",'');
-					returnString = parseInt(string.substring(0,2), 16)+','+parseInt(string.substring(2,4), 16)+','+parseInt(string.substring(4,6), 16)
+					return (this.config.bgColor||this.config.transparent)?'rgba('+getRgbString()+','+(this.config.transparent&&this.config.transparent.type!='content'?this.transparent.opacity:1)+')':'#fff';
 				}
-				return returnString
-			}, 
-			getCpRgbString(){
-				var bgColor = this.config.componentBgColor||"#f8f8f8",returnString=""
-				if(bgColor.indexOf(",")>-1){
-					returnString = bgColor.split('(')[1].replace(')','').split(',').slice(0,3).join(",")
-				}else{
-					if(bgColor.length==4)bgColor = bgColor+bgColor.charAt(bgColor.length-1)+bgColor.charAt(bgColor.length-1)+bgColor.charAt(bgColor.length-1)
-					var string = bgColor.replace("#",'');
-					returnString = parseInt(string.substring(0,2), 16)+','+parseInt(string.substring(2,4), 16)+','+parseInt(string.substring(4,6), 16)
+				function getRgbString(){
+					var bgColor = that.config.bgColor||"#ffffff",returnString=""
+					if(bgColor.indexOf(",")>-1){
+						returnString = bgColor.split('(')[1].replace(')','').split(',').slice(0,3).join(",")
+					}else{
+						if(bgColor.length==4)bgColor = bgColor+bgColor.charAt(bgColor.length-1)+bgColor.charAt(bgColor.length-1)+bgColor.charAt(bgColor.length-1)
+						var string = bgColor.replace("#",'');
+						returnString = parseInt(string.substring(0,2), 16)+','+parseInt(string.substring(2,4), 16)+','+parseInt(string.substring(4,6), 16)
+					}
+					return returnString
 				}
-				return returnString
 			}
 		},
 		created() {
@@ -301,6 +298,7 @@
 	.nvContent{position: absolute;bottom: 0;left: 0;width: 100%;height: 88rpx;display: flex;padding: 0 20rpx;justify-content: space-between;align-items: center;}
 	.nvInput{font-size: 30rpx;width: 100%;}
 	.searchIcon{
+		width: 18px;
 		margin-right: 20rpx;
 		/* #ifdef MP */
 		height: 18px;

@@ -10,7 +10,8 @@
 			return {
 				nvConfig:{
 					title:"pyh-nv 通用导航栏",
-					bgColor:"#ccc",
+					// bgColor:"#ccc",
+					bgColor:"linear-gradient(to right, red , yellow)",
 					// componentBgColor:"#f8f8f8",
 					color:"#2b9939",
 					btn:[
