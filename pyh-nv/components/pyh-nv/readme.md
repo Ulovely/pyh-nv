@@ -21,19 +21,19 @@ Vue.component("nv",nv)
 
 <nv></nv>
 
-<nv :config="{'title':'pyh-nv','hideback':true}"></nv>
+<nv :config="{'hideback':true}"></nv>
 
-<nv :config="nvConfig"></nv>
+<nv :config="config"></nv>
 
 ```
 
-在 ``script`` 中 config/nvConfig 说明
+在 ``script`` 中 config 说明
 
 所有配置都为选填,无需要可以不配置,不复杂!!!</br>
 所有配置都为选填,无需要可以不配置,不复杂!!!</br>
 所有配置都为选填,无需要可以不配置,不复杂!!!</br>
 
-**config/nvConfig 属性说明：**
+**config 属性说明：**
 
 |属性名				|类型	|默认值	    |说明																			|
 |---				|----	|---	    |---																			|
@@ -54,14 +54,14 @@ Vue.component("nv",nv)
 |btn				|Array	|[]		    |导航栏右方按钮组,{text:'点击1'},{icon:''}										|
 |tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}								|
 
-**config/nvConfig 内 toTop 配置说明：**
+**config 内 toTop 配置说明：**
 
 |属性名				|类型	|默认值	                    |说明								|
 |---				|----	|---	                    |---								|
 |duration			|Number	|300   						|回到顶部的滚动动画时间（ms）			|
 |style				|Object	|{}	     					|样式配置							|
 
-**config/nvConfig 内 logo 配置说明：**
+**config 内 logo 配置说明：**
 
 |属性名				|类型	|默认值	                    |说明								|
 |---				|----	|---	                    |---								|
@@ -69,7 +69,7 @@ Vue.component("nv",nv)
 |url				|String	|''						    |如果传值,点击logo会reLaunch到该url	|
 |style				|Object	|{}	     					|样式配置							|
 
-**config/nvConfig 内 search 配置说明：**
+**config 内 search 配置说明：**
 
 |属性名				|类型	|默认值	    |说明													|
 |---				|----	|---	    |---													|
@@ -83,7 +83,7 @@ Vue.component("nv",nv)
 |btn				|Object	|		    |input为true时生效,搜索框提交按钮,{text:'搜索',style:{}}	|
 |confirmType		|String	|'search'	|同官方input的confirm-type,设置回车键文字				|
 
-**config/nvConfig 内 transparent 配置说明：**
+**config 内 transparent 配置说明：**
 
 |属性名						|类型	|默认值	      	|说明													|
 |---						|----	|---	      	|---													|
@@ -105,6 +105,10 @@ Vue.component("nv",nv)
 
 
 **更新记录：**
+
+版本1.1.3：</br>
+1、修复config空值有时会报错的bug</br>
+2、修改说明文档，去除nvConfig以免混淆
 
 版本1.1.2：</br>
 1、添加通用导航栏渐变色背景功能（渐变色背景会导致transparent背景色渐变失效）

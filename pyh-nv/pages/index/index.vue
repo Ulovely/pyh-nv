@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv :config="{'title':'pyh-nv','hideback':true}"></nv>
+		<nv :config="{'hideback':true}"></nv>
 		<view class="desc">
 			pyh-nv通用组件，是一款适用于多数情况的导航栏，兼容h5、app、微信小程序、其它小程序（未经测试，可能会出现样式差异，但都可调整至正常）；既有样式也有相应功能</br>
 			拥有以下类型：</br>

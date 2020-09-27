@@ -69,7 +69,12 @@
 	export default {
 		name:"nv",
 		props:{
-			config:{}
+			config:{
+				type:Object,
+				default(){
+					return {}
+				}
+			},
 		},
 		data() {
 			return {
