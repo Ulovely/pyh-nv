@@ -21,9 +21,9 @@
 							<view class="nvAddressText">{{config.address[config.address.fields||'province']||'广东省'}}</view>
 						</view>
 						<view class="nvSForm">
-							<view class="nvSBox" :style="{'background':(config.search.bgColor||config.componentBgColor||'')}">
+							<view class="nvSBox" :style="{'background':(config.search.bgColor||config.componentBgColor||'')}" @tap.stop="linkTo" :data-url="config.search.url" :data-type="config.search.linkType||''" data-isInput="true">
 								<icon type="search" size="18" class="searchIcon"></icon>
-								<input class="nvInput" type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @tap.stop="linkTo" :data-url="config.search.url" :data-type="config.search.linkType||''" data-isInput="true" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
+								<input class="nvInput" type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
 								<icon type="clear" size="15" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></icon>
 							</view>
 							<view class='nvSBtn' @tap.stop="formSubmit" v-if="config.search.btn&&config.search.input" :style="config.search.btn.style||''">{{config.search.btn.text||'搜索'}}</view>
@@ -342,7 +342,7 @@
 	//右边按钮组
 	.nvBtnGroup{position: absolute;right: 20rpx;top: 0;height: 88rpx;display: flex;align-items: center;justify-content: center;z-index: 993;font-size: 28rpx;color: #000000;}
 	.nvBtnGroup .nvBtn,.nvBtnGroup .nvBtnImg{padding: 0;padding-left: 20rpx;background: none;border: none;color: #000000;box-sizing: content-box!important;z-index: 3;}
-	.nvBtnGroup .nvBtnImg{height: auto;width: 48rpx;}
+	.nvBtnGroup .nvBtnImg{height: auto;width: 48rpx;padding-left: 0;margin-left: 20rpx;}
 	
 	//tab栏
 	.nvTabBox .nvTab{display: flex;flex-direction: column;align-items: center;justify-content: flex-end;line-height: 80rpx;margin: 0 10rpx;}
