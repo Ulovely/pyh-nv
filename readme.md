@@ -40,6 +40,7 @@ Vue.component("nv",nv)
 |title				|String	|'pyh-nv' 	|标题,在组件内写死或动态修改														|
 |position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，其它值为静态导航栏，随页面滚动				|
 |hideback			|Boolean|false      |是否隐藏导航栏返回功能															|
+|model				|Boolean|false      |是否页面内独立使用模型，如果是固定定位，top为导航栏高度							|
 |bgColor			|String	|'#ffffff'	|导航栏背景色,如果使用渐变色，transparent渐变属性失效|
 |color				|String	|'#000000'	|导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）	|
 |componentBgColor	|String	|'#f8f8f8'	|导航栏组件背景色(可被覆盖)，如果有设置，回到首页的返回键有背景色					|
@@ -105,6 +106,15 @@ Vue.component("nv",nv)
 
 
 **更新记录：**
+
+版本1.1.6：</br>
+1、修复model定位问题
+
+版本1.1.5：</br>
+1、全类型支持设置右方按钮组</br>
+2、添加h5 document.title等于config的标题</br>
+3、添加属性model，可在页面内独立使用，常用于不满足右方按钮小程序不显示的兼容方案（使用2个nv）</br>
+4、优化代码结构
 
 版本1.1.4：</br>
 1、修复微信公众号中input的disabled点击跳转失效问题</br>
