@@ -25,19 +25,19 @@
 					logo:{
 						url:"/pages/index/index"
 					},
-					btn:[
-						{
-							type:"点击1",
-							text:"点击1",
-							// style:{
-							// 	color:"#ffffff"
-							// }
-						},
-						{
-							type:"点击2",
-							icon:"/static/logo.png"
-						}
-					],
+					// btn:[
+					// 	{
+					// 		type:"点击1",
+					// 		text:"点击1",
+					// 		// style:{
+					// 		// 	color:"#ffffff"
+					// 		// }
+					// 	},
+					// 	{
+					// 		type:"点击2",
+					// 		icon:"/static/logo.png"
+					// 	}
+					// ],
 					// address:{
 					// 	bgColor:"#f8f8f8",
 					// 	color:"#333",
