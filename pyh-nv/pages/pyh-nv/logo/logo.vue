@@ -16,7 +16,20 @@
 						style:{
 							width:"60rpx"
 						}
-					}
+					},
+					btn:[
+						{
+							type:"点击1",
+							text:"点击1",
+							// style:{
+							// 	color:"#ffffff"
+							// }
+						},
+						{
+							type:"点击2",
+							icon:"/static/logo.png"
+						}
+					]
 				}
 			}
 		},

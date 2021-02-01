@@ -39,9 +39,9 @@ Vue.prototype.nvRoute = function (url,type) {
 		if(url.indexOf("/")==0||url.indexOf(".")==0){
 			uni.navigateTo({url:url})
 		}else{
-			var platform = getApp().globalData.platform||'mobile'
+			var platform = getApp().globalData.platform||'h5'
 			if(url.indexOf("?")>0){url+="&platform="+platform}else{url+="?platform="+platform}
-			if(platform=="mobile"){
+			if(platform=="h5"){
 				top.location.href=url
 			}else if(platform=="app"){
 				plus.runtime.openUrl(url);

@@ -1,8 +1,7 @@
 <template>
 	<view>
 		<nv ref="nv" :config="nvConfig"></nv>
-		<view class="listBox">
-			<view style="height: var(--status-bar-height);width: 100%;"></view>
+		<view class="listBox" :style="{'padding-top':(pageTop+'px')}">
 			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
 		</view>
 	</view>
@@ -30,6 +29,9 @@
 			}
 		},
 		onPageScroll(e) {this.$refs.nv.pageScroll(e)},
+		computed:{
+			pageTop(){return parseInt(88*uni.getSystemInfoSync().windowWidth/750) + uni.getSystemInfoSync().statusBarHeight}
+		},
 		methods: {
 			
 		}
@@ -37,6 +39,6 @@
 </script>
 
 <style>
-	.listBox{background: linear-gradient(-45deg,#2b9939 0%, #ffc80b 100%);min-height: 500rpx;padding: 128rpx 20rpx 20rpx;}
+	.listBox{background: linear-gradient(-45deg,#2b9939 0%, #ffc80b 100%);min-height: 500rpx;padding: 88rpx 20rpx 20rpx;}
 	.listBox .list{background: #fff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
 </style>
