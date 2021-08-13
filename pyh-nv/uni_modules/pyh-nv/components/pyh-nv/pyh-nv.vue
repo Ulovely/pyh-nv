@@ -466,7 +466,7 @@
 	}
 	
 	//右边按钮组
-	.nvBtnGroup{position: absolute;right: 0;top: 0;height: 88rpx;align-items: center;justify-content: center;z-index: 993;font-size: 28rpx;color: #000000;}
+	.nvBtnGroup{position: absolute;right: 20rpx;top: 0;height: 88rpx;align-items: center;justify-content: center;z-index: 993;font-size: 28rpx;color: #000000;}
 	.nvBtn{display: flex;align-items: center;justify-content: center;flex-direction: column;text-align: center;}
 	.nvBtn:first-child{margin-left: 0;}
 	.nvBtn,.nvBtnImg{padding: 0;margin-left: 20rpx;background: transparent;border: 0;color: #000000;z-index: 3;font-size: 28rpx;position: relative;}
