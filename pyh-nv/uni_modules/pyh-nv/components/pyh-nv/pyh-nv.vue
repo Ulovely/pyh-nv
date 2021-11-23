@@ -111,8 +111,9 @@
 		},
 		data() {
 			return {
-				platform:platform||'h5',
 				title:getApp().globalData.NAME||"pyh-nv",
+				sysncTitle:(getApp().globalData.hasOwnProperty('sysncTitle')?getApp().globalData.sysncTitle:true),
+				platform:platform||'h5',
 				mainColor:getApp().globalData.mainColor||"#2b9939",
 				currentPages:getCurrentPages().length||1,
 				home:getApp().globalData.HOME||"/pages/index/index",
@@ -217,6 +218,8 @@
 			    })
 			// #endif
 			
+			if(this.config.hasOwnProperty('sysncTitle'))this.sysncTitle=this.config.sysncTitle
+			
 			if(this.config.search&&this.config.search.value)this.inputValue=this.config.search.value;
 			if(this.config.transparent&&this.config.transparent.initColor){
 				var initColor = this.config.transparent.initColor,finishColor = this.config.color||"#000000";
@@ -251,7 +254,22 @@
 				var obj = {frontColor:this.transparent.initColor,backgroundColor:this.config.bgColor||"#ffffff"};
 				uni.setNavigationBarColor(obj);
 			}
-			if(platform=="h5")document.title=this.config.title||this.title;
+			if(platform=="h5"&&!this.config.model){
+				console.log(this.title,document.title)
+				function setDocTitle(t){
+					document.title = t;var i = document.createElement('iframe');/*i.src = '//m.baidu.com/favicon.ico';*/i.style.display = 'none';i.onload = function() {setTimeout(function(){i.remove();}, 9)};document.body.appendChild(i);
+				}
+				if(this.config.hasOwnProperty('title')){
+					this.title = this.config.title
+					if(this.sysncTitle&&this.title){
+						uni.setNavigationBarTitle({title:this.title})
+						setDocTitle(this.title)
+					}
+				}else if(this.sysncTitle&&(document.title!=this.title)){
+					uni.setNavigationBarTitle({title:this.title})
+					setDocTitle(this.title)
+				}
+			}
 		},
 		onUnload() {uni.offWindowResize();},
 		methods:{
@@ -471,7 +489,7 @@
 	.nvBtn:first-child{margin-left: 0;}
 	.nvBtn,.nvBtnImg{padding: 0;margin-left: 20rpx;background: transparent;border: 0;color: #000000;z-index: 3;font-size: 28rpx;position: relative;}
 	.nvBtnImg{width: 48rpx;margin-left: 0;}
-	.nvBtnGroup-static{position: relative;padding-left: 20rpx;}
+	.nvBtnGroup-static{position: relative;padding-left: 20rpx;right: 0;}
 	.nvBtn .nvBadge{width: 26rpx;height: 26rpx;position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #fff;font-size: 16rpx;z-index: 4;}
 	
 	//tab栏

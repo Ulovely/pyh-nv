@@ -3,7 +3,8 @@
 		globalData:{
 			mainColor:"#2b9939",
 			HOME:"",
-			NAME:""
+			NAME:"",
+			sysncTitle:true
 		},
 		onLaunch: function() {
 			

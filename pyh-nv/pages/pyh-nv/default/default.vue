@@ -14,6 +14,7 @@
 			return {
 				nvConfig:{
 					title:"pyh-nv 通用导航栏",
+					// sysncTitle:false,//是否开启同步导航栏（比如微信导航栏）
 					bgColor:"#fff",
 					componentBgColor:"#f8f8f8",
 					color:"#2b9939",

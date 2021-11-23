@@ -9,6 +9,7 @@
 		data() {
 			return {
 				nvConfig:{
+					title:"pyh-nv 含搜索框导航栏",
 					type:"search",
 					hideback:true,
 					search:{

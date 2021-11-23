@@ -12,7 +12,7 @@
 		data() {
 			return {
 				nvConfig:{
-					title:"pyh-nv 渐变导航栏",
+					title:" ",
 					bgColor:"#ffffff",
 					// componentBgColor:"#2b9939",
 					color:"#000000",
