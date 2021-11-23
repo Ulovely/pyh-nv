@@ -255,11 +255,14 @@
 				uni.setNavigationBarColor(obj);
 			}
 			if(platform=="h5"&&!this.config.model){
-				console.log(this.title,document.title)
 				function setDocTitle(t){
 					document.title = t;var i = document.createElement('iframe');/*i.src = '//m.baidu.com/favicon.ico';*/i.style.display = 'none';i.onload = function() {setTimeout(function(){i.remove();}, 9)};document.body.appendChild(i);
 				}
 				if(this.config.hasOwnProperty('title')){
+					if(!document.title&&!this.sysncTitle){
+						uni.setNavigationBarTitle({title:this.title})
+						setDocTitle(this.title)
+					}
 					this.title = this.config.title
 					if(this.sysncTitle&&this.title){
 						uni.setNavigationBarTitle({title:this.title})

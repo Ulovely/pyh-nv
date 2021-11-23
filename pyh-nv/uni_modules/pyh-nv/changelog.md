@@ -1,3 +1,6 @@
+## 1.3.0（2021-11-23）
+1、补充1.2.9版本空navigationBarTitleText时赋值浏览器标题。\n
+2、补充说明，h5端浏览器导航栏的配置，最好pages.json内不填写navigationBarTitleText，可参考示例项目
 ## 1.2.9（2021-11-23）
 1、移除pyh-nv.vue内配置h5AutoTitle，效果不变，如果config.title键存在，则不取当前浏览器标题，否则取当前浏览器标题。注：浏览器默认标题为pages.json内配置的navigationBarTitleText。
 2、新增sysncTitle属性，可在组件内、globalData和单页面config修改，用于是否控制浏览器标题与当前标题同步
