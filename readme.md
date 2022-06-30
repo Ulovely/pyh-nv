@@ -57,15 +57,17 @@ Vue.component("nv",nv)
 |color				|String	|'#000000'	|导航栏和状态栏字体色，也用于渐变完成时字体色（状态栏字体只支持#000000或#ffffff）|
 |componentBgColor	|String	|'#f8f8f8'	|导航栏组件背景色(可被覆盖)，如果有设置，回到首页的返回键有背景色|
 |type				|String	|'default'	|导航栏类型(默认为通用),还有logo和search											|
+|componentsFlex		|String	|'center'   |type为search或image(只控制图片)时的组件内容flex布局align-items属性，内容居上（top）、中(center/middle/auto)、下(bottom)|
 |safeArea			|Number	|安全高度	|暂时只用于控制滚动显示，比如回到顶部												|
 |toTop				|Object |			|是否使用回到顶部，有该属性就是使用,详细见下方toTop说明}							|
+|windowInfo			|Object	|{}			|可填入width、height	、statusBarHeight来自定义窗口大小，如{width:667,height:375,statusBarHeight:0},单位为px,不传则为uni.getSystemInfoSync()的值|
 |logo				|Object	|		   	|导航栏logo的配置,仅type为logo或search时有效,详细见下方logo说明					|
 |search				|Object	|		    |导航栏含搜索框的配置,仅type为search时有效,详细见下方search说明					|
 |transparent		|Object	|		    |导航栏渐变配置,详细见下方transparent说明											|
 |fixedAssist		|Object	|    		|固定/绝对定位时辅助容器,{hide:false,bgColor:''}									|
 |address			|Object	|		    |搜索导航栏左地址配置,{province:'广东省'}											|
 |btn				|Array	|[]		    |导航栏右方按钮组,{text:'点击1',style:''},{icon:'',text:'',badge:{text:'1',style:''}}|
-|tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}								|
+|tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}(说明：active为初始化活动态选项，hide为隐藏选项)|
 
 
 **pyh-nv.vue 内配置说明：**
@@ -89,7 +91,7 @@ Vue.component("nv",nv)
 |---				|----	|---	                    |---								|
 |src				|String	|'/static/logo.png'   		|logo路径							|
 |url				|String	|''						    |如果传值,点击logo会reLaunch到该url	|
-|style				|String	|''	     					|样式配置							|
+|style				|String	|'width:60rpx'	     		|样式配置,图片默认为withFix,只传height为heightFix,宽高都传为aspectFill|
 
 **config 内 search 配置说明：**
 
