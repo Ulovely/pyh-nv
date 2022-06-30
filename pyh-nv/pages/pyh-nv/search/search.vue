@@ -9,6 +9,7 @@
 		data() {
 			return {
 				nvConfig:{
+					// componentsFlex:"bottom",//
 					title:"pyh-nv 含搜索框导航栏",
 					type:"search",
 					hideback:true,
@@ -38,7 +39,7 @@
 					// 	}
 					// ],
 					// address:{
-					// 	bgColor:"#f8f8f8",
+					// 	// bgColor:"#f8f8f8",
 					// 	color:"#333",
 					// 	province:"广东省",
 					// 	city:"广州市",

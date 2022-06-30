@@ -1,12 +1,15 @@
 <template name="nv">
 	<view class="pyh-nv-box" :style="style">
 		<view class='nvHeight' :style="[{'height':navigatorHeight+'px'},{'background':(config.fixedAssist&&config.fixedAssist.bgColor)||''}]" v-if="isFixed&&!(config.fixedAssist&&config.fixedAssist.hide)"></view>
-		<image :src="config.bgImage" :style="[{'position':config.model?'fixed':'absolute'},{'top':(config.model?(navigatorTop+'px'):0)},{'width':windowWidth+'px','height':navigatorHeight+'px'}]" v-if="config.bgImage" class="bgImage"></image>
-		<view :class="['nvBox',{'noModel':!config.model}]" :style="[{'width':windowWidth+'px'},{'color':getTxtColor},{'background':getBgColor},{'opacity':config.transparent&&config.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':(isFixed&&config.model?(navigatorTop+'px'):0)}]">
+		<image :src="config.bgImage" :style="[{'position':config.model?'fixed':'absolute'},{'top':(config.model?(navigatorTop+'px'):0)},{'width':windowInfo.width+'px','height':navigatorHeight+'px'}]" v-if="config.bgImage" class="bgImage"></image>
+		<view :class="['nvBox',{'noModel':!config.model}]" :style="[{'width':windowInfo.width+'px'},{'color':getTxtColor},{'background':getBgColor},{'opacity':config.transparent&&config.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':(isFixed&&config.model?(navigatorTop+'px'):0)}]">
 			<view class='nvHeight' :style="[{'height':navigatorHeight+'px'}]"></view>
-			<view class='nvFixed' :style="[{'width':windowWidth+'px'}]">
+			<view class='nvFixed' :style="[{'width':windowInfo.width+'px'}]">
 				<!-- 单logo -->
-				<view :class="['nvContent','nvLogoBox',{'androidwx':androidwx}]" v-if="config.type=='logo'">
+				<view :class="['nvContent','nvLogoBox',{'androidwx':androidwx},
+				{'nvContentTop':config.componentsFlex&&config.componentsFlex=='top'},
+				{'nvContentBottom':config.componentsFlex&&config.componentsFlex=='bottom'}
+				]" v-if="config.type=='logo'">
 					<image :src="config.logo.src?config.logo.src:'/static/logo.png'" class="nvLogo" :style="config.logo.style" :mode="config.logo.style|getImgMode" @tap.stop="nvLogoTap"></image>
 					<view v-if="config.btn&&config.btn.length>0" class="nvBtnGroup">
 						<block v-for="(b,n) in config.btn" :key="n">
@@ -23,24 +26,25 @@
 					</view>
 				</view>
 				<!-- 含搜索 -->
-				<view :class="['nvContent','nvSearchBox',{'nvHadBack':!config.hideback}]" v-else-if="config.type=='search'">
+				<view :class="['nvContent','nvSearchBox',{'nvHadBack':!config.hideback},
+				{'nvContentTop':config.componentsFlex&&config.componentsFlex=='top'},
+				{'nvContentBottom':config.componentsFlex&&config.componentsFlex=='bottom'}
+				]" v-else-if="config.type=='search'">
 					<image :src="config.logo.src?config.logo.src:'/static/logo.png'" class="nvLogo nvSearchLogo" :style="config.logo.style" :mode="config.logo.style|getImgMode" @tap.stop="nvLogoTap" v-if="config.logo&&!config.address"></image>
-					<view class="nvAddress" :style="[{'background':(config.address.bgColor||config.componentBgColor||'')},{'color':(config.address.color||'')}]" v-if="config.address" @tap.stop="nvAddressTap">
-						<text class="iconfont nvAddressIcon" :style="{'color':(config.address.color||'')}">&#xe613;</text>
+					<view :class="['nvAddress',{'nvSBoxFlex':config.componentsFlex&&(config.componentsFlex=='top'||config.componentsFlex=='bottom')}]" :style="[{'width':config.address.width||'144rpx'},{'background':(config.address.bgColor||'')},{'margin-right':Boolean(config.address.bgColor||'')?'20rpx':'0'},{'color':(config.address.color||'')}]" v-if="config.address" @tap.stop="nvAddressTap">
+						<text class="nvAddressText">{{config.address[config.address.fields||'province']||'广东省'}}</text>
 						
-						<view class="nvAddressTextBox">
-							<text class="nvAddressText">{{config.address[config.address.fields||'province']||'广东省'}}</text>
-						</view>
+						<text class="iconfont nvAddressIcon" :style="{'color':(config.address.color||'')}">&#xe6b5;</text>
 					</view>
 					<view class="nvSForm" >
-						<view class="nvSBox" :style="[{'background':(config.search.bgColor||config.componentBgColor||'')},{'border':config.search.border||''}]" @tap.stop="searchTap" data-isInput="true">
+						<view :class="['nvSBox',{'nvSBoxFlex':config.componentsFlex&&(config.componentsFlex=='top'||config.componentsFlex=='bottom')}]" :style="[{'background':(config.search.bgColor||config.componentBgColor||'')},{'border':config.search.border||''}]" @tap.stop="searchTap" data-isInput="true">
 							<icon type="search" size="18" class="searchIcon"></icon>
 							<input class="nvInput" type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
 							<icon type="clear" size="15" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></icon>
 						</view>
 						<text class='nvSBtn' @tap.stop="formSubmit" v-if="config.search.btn&&config.search.input" :style="config.search.btn.style||''">{{config.search.btn.text||'搜索'}}</text>
 					</view>
-					<view v-if="config.btn&&config.btn.length>0" class="nvBtnGroup nvBtnGroup-static">
+					<view v-if="config.btn&&config.btn.length>0" :class="['nvBtnGroup','nvBtnGroup-static',{'componentsFlex':config.componentsFlex}]">
 						<block v-for="(b,n) in config.btn" :key="n">
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
@@ -55,11 +59,14 @@
 					</view>
 				</view>
 				<!-- 默认导航栏 -->
-				<view class="nvContent nvDefault" v-else>
+				<view :class="['nvContent','nvDefault',
+				{'nvContentTop':config.componentsFlex&&config.componentsFlex=='top'},
+				{'nvContentBottom':config.componentsFlex&&config.componentsFlex=='bottom'}
+				]" v-else>
 					<view v-if="config.tabArr&&config.tabArr.length>0" :class="['nvTitle','nvTabBox',{'androidwx':androidwx}]">
 						<view :class="['nvTab',{'nvTabHide':t.hide}]" @tap.stop="nvTabTap" :data-index="i" v-for="(t,i) in config.tabArr" :key="i">
-							<text :class="[t.active?'nTTxt-ac':'nTTxt']" :style="{'color':(t.active?mainColor:getTxtColor)}">{{t.title}}</text>
-							<view :class="[t.active?'nTLine-ac':'nTLine']"></view>
+							<text :class="[nvTabAcIndex==i?'nTTxt-ac':'nTTxt']" :style="{'color':(nvTabAcIndex==i?mainColor:getTxtColor)}">{{t.title}}</text>
+							<view :class="[nvTabAcIndex==i?'nTLine-ac':'nTLine']"></view>
 						</view>
 					</view>
 					<view v-else :class="['nvTitle',{'androidwx':androidwx},{'hideback':config.hideback}]">
@@ -89,7 +96,7 @@
 	</view>
 </template>
 <script>
-	var platform;
+	var platform = "h5";
 	//#ifdef H5
 	platform="h5"
 	//#endif
@@ -113,7 +120,6 @@
 			return {
 				title:getApp().globalData.NAME||"pyh-nv",
 				sysncTitle:(getApp().globalData.hasOwnProperty('sysncTitle')?getApp().globalData.sysncTitle:true),
-				platform:platform||'h5',
 				mainColor:getApp().globalData.mainColor||"#2b9939",
 				currentPages:getCurrentPages().length||1,
 				home:getApp().globalData.HOME||"/pages/index/index",
@@ -125,7 +131,12 @@
 					color:"#ffffff",
 					opacity:0
 				},
-				windowWidth:uni.getSystemInfoSync().windowWidth,
+				nvTabAcIndex:0,
+				windowInfo:{
+					width:uni.getSystemInfoSync().windowWidth,
+					height:uni.getSystemInfoSync().windowHeight,
+					statusBarHeight:uni.getSystemInfoSync().statusBarHeight
+				},
 				style:""
 			};
 		},
@@ -140,8 +151,10 @@
 		filters:{
 			getImgMode(style){
 				//获取图片mode类型
-				if(style&&style.indexOf("height")>-1){
+				if(style&&style.indexOf("height")>-1&&style.indexOf("width")>-1){
 					return 'aspectFill';
+				}else if(style&&style.indexOf("height")>-1){
+					return 'heightFix';
 				}else{
 					return 'widthFix';
 				}
@@ -150,20 +163,20 @@
 		computed:{
 			statusHeight(){
 				//状态栏高度
-				var statusBarHeight = this.config.model?0:uni.getSystemInfoSync().statusBarHeight;
+				var statusBarHeight = this.config.model?0:this.windowInfo.statusBarHeight;
 				return statusBarHeight+'px';
 			},
 			navigatorHeight(){
 				//导航栏高度
-				var statusBarHeight = this.config.model?0:uni.getSystemInfoSync().statusBarHeight;
-				var windowWidth = this.lockWindowWidth&&this.windowWidth>750?375:this.windowWidth;
+				var statusBarHeight = this.config.model?0:this.windowInfo.statusBarHeight;
+				var windowWidth = this.lockWindowWidth&&this.windowInfo.width>750?375:this.windowInfo.width;
 				return parseInt(88*windowWidth/750)+statusBarHeight;
 			},
 			navigatorTop(){
 				//model类型下的顶部高度
-				var windowWidth = this.lockWindowWidth&&this.windowWidth>750?375:this.windowWidth;
+				var windowWidth = this.lockWindowWidth&&this.windowInfo.width>750?375:this.windowInfo.width;
 				if(this.config.model){
-					return parseInt(88*windowWidth/750)+uni.getSystemInfoSync().statusBarHeight;
+					return parseInt(88*windowWidth/750)+this.windowInfo.statusBarHeight;
 				}else{
 					return 0;
 				}
@@ -176,7 +189,7 @@
 			isSharePage(){return this.currentPages==1;},
 			//安卓微信
 			androidwx(){
-				if(this.config.checkAndroidwx&&this.platform=="mp"&&uni.getSystemInfoSync().platform.indexOf("ios")==-1){
+				if(this.config.checkAndroidwx&&platform=="mp"&&uni.getSystemInfoSync().platform.indexOf("ios")==-1){
 					return true;
 				}else{
 					return false;
@@ -218,6 +231,8 @@
 			    })
 			// #endif
 			
+			if(this.config.windowInfo)this.windowInfo = Object.assign(this.windowInfo,this.config.windowInfo)
+			
 			if(this.config.hasOwnProperty('sysncTitle'))this.sysncTitle=this.config.sysncTitle
 			
 			if(this.config.search&&this.config.search.value)this.inputValue=this.config.search.value;
@@ -236,14 +251,23 @@
 				this.transparent.color = initColor;
 				this.transparent.finishColor = finishColor;
 			}
-			this.deviceOrientation=uni.getSystemInfoSync().windowWidth>750?"landscape":"portrait";
-			if(this.deviceOrientation=="portrait")this.lockWindowWidth=true;
-			uni.onWindowResize((res)=>{
-				if(this.deviceOrientation!=res.deviceOrientation){
-					this.deviceOrientation = res.deviceOrientation;
-					this.windowWidth = res.size.windowWidth;
-				}
-			})
+			if(this.config.tabArr&&this.config.tabArr){
+				let acIndex = 0;
+				this.config.tabArr.forEach((item,index)=>{
+					if(item.active)acIndex = index
+				})
+				this.nvTabAcIndex = acIndex
+			}
+			if(!this.config.windowInfo){
+				this.deviceOrientation=this.windowInfo.width>750&&this.windowInfo.width>this.windowInfo.height?"landscape":"portrait";
+				if(this.deviceOrientation=="portrait")this.lockWindowWidth=true;
+				uni.onWindowResize((res)=>{
+					if(this.deviceOrientation!=res.deviceOrientation){
+						this.deviceOrientation = res.deviceOrientation;
+						this.windowInfo.width = res.size.windowWidth;
+					}
+				})
+			}
 		},
 		mounted() {
 			if(this.config.color){
@@ -272,6 +296,12 @@
 					uni.setNavigationBarTitle({title:this.title})
 					setDocTitle(this.title)
 				}
+				if(!document.title||document.title=="pyh-nv"||document.title=="加载中")setTimeout(()=>{
+					if(getApp().globalData.NAME){
+						uni.setNavigationBarTitle({title:getApp().globalData.NAME})
+						setDocTitle(getApp().globalData.NAME)
+					}
+				},200)
 			}
 		},
 		onUnload() {uni.offWindowResize();},
@@ -322,8 +352,9 @@
 			},
 			nvTabTap(e){
 				//中间tab按键点击
-				var e = {index:parseInt(e.currentTarget.dataset.index)};
-				this.$emit("nvTabTap",e);
+				let index = parseInt(e.currentTarget.dataset.index)
+				this.nvTabAcIndex = index
+				this.$emit("nvTabTap",{index});
 			},
 			toTopTap(e){
 				//回到顶部
@@ -444,6 +475,7 @@
 	//或
 	//uni.scss未定义或定义为null,修改下方$mainColor的默认值
 	$mainColor: #2b9939 !default;
+	$textColor: #000 !default;
 	
 	.pyh-nv-box{position: relative;}
 	.bgImage{position: absolute;left: 0;top: 0;}
@@ -472,7 +504,7 @@
 	
 	//含搜索框
 	.nvSearchLogo{margin-right: 20rpx;}
-	.nvAddress{background-color: #f8f8f8;border-radius: 44rpx;justify-content: center;align-items: center;padding: 0 16rpx 0 10rpx;font-size: 28rpx;line-height: 30rpx;margin-right: 20rpx;color: #000000;height: 60rpx;width: 144rpx;}
+	.nvAddress{border-radius: 44rpx;justify-content: center;align-items: center;padding: 0 16rpx 0 10rpx;font-size: 28rpx;line-height: 30rpx;margin-right: 20rpx;color: #000000;height: 60rpx;width: 144rpx;}
 	.nvAddressIcon{width: 30rpx;margin-right: 4rpx;font-size: 34rpx;}
 	.nvAddressTextBox{width: 84rpx;overflow: hidden;}
 	.nvAddressText{flex: 1;font-size: 28rpx;line-height: 30rpx;overflow: hidden;text-overflow: ellipsis;}
@@ -527,4 +559,10 @@
 	.nvLogo,.nvAddressIcon,.nvBtnImg{height: auto;}
 	.pyh-nv-box,.nvBox,.nvHeight,.nvFixed,.nvTitle,.nvLogoBox,.nvSearchBox,.nTLine,.nTLine-ac{width: 100%;}
 	/* #endif */
+	
+	//组件内容位置
+	.componentsFlex{height: 70rpx;}
+	.nvContentTop{align-items: flex-start;}
+	.nvContentBottom{align-items: flex-end;}
+	.nvSBoxFlex{height: 70rpx;line-height: 70rpx;}
 </style>

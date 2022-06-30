@@ -13,6 +13,11 @@
 		data() {
 			return {
 				nvConfig:{
+					// windowInfo:{
+					// 	width:375,
+					// 	height:667,
+					// 	// statusBarHeight:0
+					// },
 					title:"pyh-nv 通用导航栏",
 					// sysncTitle:false,//是否开启同步导航栏（比如微信导航栏）
 					bgColor:"#fff",

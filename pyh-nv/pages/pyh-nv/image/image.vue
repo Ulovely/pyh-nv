@@ -9,6 +9,7 @@
 		data() {
 			return {
 				nvConfig:{
+					// componentsFlex:"bottom",
 					title:"pyh-nv 背景图、logo导航栏",
 					// bgImage:"/static/logo.png",//背景图
 					type:"logo",

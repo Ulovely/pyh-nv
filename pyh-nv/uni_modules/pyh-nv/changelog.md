@@ -1,3 +1,12 @@
+## 1.3.3（2022-06-30）
+1、修改了地址的样式（想去可参考示例search.vue）\r\n
+2、添加了type为search或image时使用componentsFlex来控制flex的align-items，其中image只能控制图片
+## 1.3.2（2022-06-28）
+1、优化tabArr活动态切换（组件内代码根据点击切换选项），传入的active改为初始活动态的选项（可不传），和旧版本不冲突；
+2、优化logo的mod类型（根据传入style来自动判断类型）；
+3、新增windowInfo来自定义窗口，不传默认为uni.getSystemInfoSync()的窗口
+## 1.3.1（2021-12-17）
+修复判断屏幕方向导致ipad等大屏显示高度不正常
 ## 1.3.0（2021-11-23）
 1、补充1.2.9版本空navigationBarTitleText时赋值浏览器标题。\n
 2、补充说明，h5端浏览器导航栏的配置，最好pages.json内不填写navigationBarTitleText，可参考示例项目
