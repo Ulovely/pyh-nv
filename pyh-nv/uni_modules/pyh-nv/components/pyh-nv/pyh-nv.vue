@@ -1,18 +1,18 @@
 <template name="nv">
 	<view class="pyh-nv-box" :style="style">
-		<view class='nvHeight' :style="[{'height':navigatorHeight+'px'},{'background':(config.fixedAssist&&config.fixedAssist.bgColor)||''}]" v-if="isFixed&&!(config.fixedAssist&&config.fixedAssist.hide)"></view>
-		<image :src="config.bgImage" :style="[{'position':config.model?'fixed':'absolute'},{'top':(config.model?(navigatorTop+'px'):0)},{'width':windowInfo.width+'px','height':navigatorHeight+'px'}]" v-if="config.bgImage" class="bgImage"></image>
-		<view :class="['nvBox',{'noModel':!config.model}]" :style="[{'width':windowInfo.width+'px'},{'color':getTxtColor},{'background':getBgColor},{'opacity':config.transparent&&config.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':(isFixed&&config.model?(navigatorTop+'px'):0)}]">
+		<view class='nvHeight' :style="[{'height':navigatorHeight+'px'},{'background':(nvConfig.fixedAssist&&nvConfig.fixedAssist.bgColor)||''}]" v-if="isFixed&&!(nvConfig.fixedAssist&&nvConfig.fixedAssist.hide)"></view>
+		<image :src="nvConfig.bgImage" :style="[{'position':isFixed?'fixed':'absolute'},{'top':(nvConfig.model?(navigatorTop+'px'):0)},{'width':windowInfo.width+'px','height':navigatorHeight+'px'}]" v-if="nvConfig.bgImage" class="bgImage"></image>
+		<view :class="['nvBox',{'noModel':!nvConfig.model}]" :style="[{'width':windowInfo.width+'px'},{'color':getTxtColor},{'background':getBgColor},{'opacity':nvConfig.transparent&&nvConfig.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':(isFixed&&nvConfig.model?(navigatorTop+'px'):0)}]">
 			<view class='nvHeight' :style="[{'height':navigatorHeight+'px'}]"></view>
 			<view class='nvFixed' :style="[{'width':windowInfo.width+'px'}]">
 				<!-- 单logo -->
 				<view :class="['nvContent','nvLogoBox',{'androidwx':androidwx},
-				{'nvContentTop':config.componentsFlex&&config.componentsFlex=='top'},
-				{'nvContentBottom':config.componentsFlex&&config.componentsFlex=='bottom'}
-				]" v-if="config.type=='logo'">
-					<image :src="config.logo.src?config.logo.src:'/static/logo.png'" class="nvLogo" :style="config.logo.style" :mode="config.logo.style|getImgMode" @tap.stop="nvLogoTap"></image>
-					<view v-if="config.btn&&config.btn.length>0" class="nvBtnGroup">
-						<block v-for="(b,n) in config.btn" :key="n">
+				{'nvContentTop':nvConfig.componentsFlex&&nvConfig.componentsFlex=='top'},
+				{'nvContentBottom':nvConfig.componentsFlex&&nvConfig.componentsFlex=='bottom'}
+				]" v-if="nvConfig.type=='logo'">
+					<image :src="nvConfig.logo.src?nvConfig.logo.src:'/static/logo.png'" class="nvLogo" :style="nvConfig.logo.style" :mode="getImgMode(nvConfig.logo.style)" @tap.stop="nvLogoTap"></image>
+					<view v-if="nvConfig.btn&&nvConfig.btn.length>0" class="nvBtnGroup">
+						<block v-for="(b,n) in nvConfig.btn" :key="n">
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
 								<text class="nvBtnIconTxt" v-if="b.text">{{b.text}}</text>
@@ -26,26 +26,26 @@
 					</view>
 				</view>
 				<!-- 含搜索 -->
-				<view :class="['nvContent','nvSearchBox',{'nvHadBack':!config.hideback},
-				{'nvContentTop':config.componentsFlex&&config.componentsFlex=='top'},
-				{'nvContentBottom':config.componentsFlex&&config.componentsFlex=='bottom'}
-				]" v-else-if="config.type=='search'">
-					<image :src="config.logo.src?config.logo.src:'/static/logo.png'" class="nvLogo nvSearchLogo" :style="config.logo.style" :mode="config.logo.style|getImgMode" @tap.stop="nvLogoTap" v-if="config.logo&&!config.address"></image>
-					<view :class="['nvAddress',{'nvSBoxFlex':config.componentsFlex&&(config.componentsFlex=='top'||config.componentsFlex=='bottom')}]" :style="[{'width':config.address.width||'144rpx'},{'background':(config.address.bgColor||'')},{'margin-right':Boolean(config.address.bgColor||'')?'20rpx':'0'},{'color':(config.address.color||'')}]" v-if="config.address" @tap.stop="nvAddressTap">
-						<text class="nvAddressText">{{config.address[config.address.fields||'province']||'广东省'}}</text>
+				<view :class="['nvContent','nvSearchBox',{'nvHadBack':!(nvConfig.back&&nvConfig.back.hide)},
+				{'nvContentTop':nvConfig.componentsFlex&&nvConfig.componentsFlex=='top'},
+				{'nvContentBottom':nvConfig.componentsFlex&&nvConfig.componentsFlex=='bottom'}
+				]" v-else-if="nvConfig.type=='search'">
+					<image :src="nvConfig.logo.src?nvConfig.logo.src:'/static/logo.png'" class="nvLogo nvSearchLogo" :style="nvConfig.logo.style" :mode="getImgMode(nvConfig.logo.style)" @tap.stop="nvLogoTap" v-if="nvConfig.logo&&!nvConfig.address"></image>
+					<view :class="['nvAddress','nvSearchAddress',{'nvSBoxFlex':nvConfig.componentsFlex&&(nvConfig.componentsFlex=='top'||nvConfig.componentsFlex=='bottom')}]" :style="[{'width':nvConfig.address.width||'144rpx'},{'background':(nvConfig.address.bgColor||'')},{'margin-right':Boolean(nvConfig.address.bgColor||'')?'20rpx':'0'},{'color':(nvConfig.address.color||'')}]" v-if="nvConfig.address" @tap.stop="nvAddressTap">
+						<text class="nvAddressText">{{nvConfig.address[nvConfig.address.fields||'province']||'广东省'}}</text>
 						
-						<text class="iconfont nvAddressIcon" :style="{'color':(config.address.color||'')}">&#xe6b5;</text>
+						<text class="iconfont nvAddressIcon" :style="{'color':(nvConfig.address.color||'')}">&#xe6b5;</text>
 					</view>
 					<view class="nvSForm" >
-						<view :class="['nvSBox',{'nvSBoxFlex':config.componentsFlex&&(config.componentsFlex=='top'||config.componentsFlex=='bottom')}]" :style="[{'background':(config.search.bgColor||config.componentBgColor||'')},{'border':config.search.border||''}]" @tap.stop="searchTap" data-isInput="true">
+						<view :class="['nvSBox',{'nvSBoxFlex':nvConfig.componentsFlex&&(nvConfig.componentsFlex=='top'||nvConfig.componentsFlex=='bottom')}]" :style="[{'background':(nvConfig.search.bgColor||nvConfig.componentBgColor||'')},{'border':nvConfig.search.border||''}]" @tap.stop="nvInputTap" data-isInput="true">
 							<icon type="search" size="18" class="searchIcon"></icon>
-							<input class="nvInput" type="text" :value="inputValue" :focus="config.search.focus" :placeholder="config.search.placeholder" :disabled="!config.search.input" @input="inputChange" @confirm="formSubmit" :confirm-type="config.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="config.search.placeholderStyle||''"/>
+							<input class="nvInput" type="text" :value="inputValue" :focus="nvConfig.search.focus" :placeholder="nvConfig.search.placeholder" :disabled="!nvConfig.search.input" @input="inputChange" @confirm="formSubmit" :confirm-type="nvConfig.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="nvConfig.search.placeholderStyle||''"/>
 							<icon type="clear" size="15" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></icon>
 						</view>
-						<text class='nvSBtn' @tap.stop="formSubmit" v-if="config.search.btn&&config.search.input" :style="config.search.btn.style||''">{{config.search.btn.text||'搜索'}}</text>
+						<text class='nvSBtn' @tap.stop="formSubmit" v-if="nvConfig.search.btn&&nvConfig.search.input" :style="nvConfig.search.btn.style||''">{{nvConfig.search.btn.text||'搜索'}}</text>
 					</view>
-					<view v-if="config.btn&&config.btn.length>0" :class="['nvBtnGroup','nvBtnGroup-static',{'componentsFlex':config.componentsFlex}]">
-						<block v-for="(b,n) in config.btn" :key="n">
+					<view v-if="nvConfig.btn&&nvConfig.btn.length>0" :class="['nvBtnGroup','nvBtnGroup-static',{'componentsFlex':nvConfig.componentsFlex}]">
+						<block v-for="(b,n) in nvConfig.btn" :key="n">
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
 								<text class="nvBtnIconTxt" v-if="b.text">{{b.text}}</text>
@@ -60,21 +60,21 @@
 				</view>
 				<!-- 默认导航栏 -->
 				<view :class="['nvContent','nvDefault',
-				{'nvContentTop':config.componentsFlex&&config.componentsFlex=='top'},
-				{'nvContentBottom':config.componentsFlex&&config.componentsFlex=='bottom'}
+				{'nvContentTop':nvConfig.componentsFlex&&nvConfig.componentsFlex=='top'},
+				{'nvContentBottom':nvConfig.componentsFlex&&nvConfig.componentsFlex=='bottom'}
 				]" v-else>
-					<view v-if="config.tabArr&&config.tabArr.length>0" :class="['nvTitle','nvTabBox',{'androidwx':androidwx}]">
-						<view :class="['nvTab',{'nvTabHide':t.hide}]" @tap.stop="nvTabTap" :data-index="i" v-for="(t,i) in config.tabArr" :key="i">
+					<view v-if="nvConfig.tabArr&&nvConfig.tabArr.length>0" :class="['nvTitle','nvTabBox',{'androidwx':androidwx}]">
+						<view :class="['nvTab',{'nvTabHide':t.hide}]" @tap.stop="nvTabTap" :data-index="i" v-for="(t,i) in nvConfig.tabArr" :key="i">
 							<text :class="[nvTabAcIndex==i?'nTTxt-ac':'nTTxt']" :style="{'color':(nvTabAcIndex==i?mainColor:getTxtColor)}">{{t.title}}</text>
 							<view :class="[nvTabAcIndex==i?'nTLine-ac':'nTLine']"></view>
 						</view>
 					</view>
-					<view v-else :class="['nvTitle',{'androidwx':androidwx},{'hideback':config.hideback}]">
-						<text :style="{'color': getTxtColor}">{{config.title||title}}</text>
+					<view v-else :class="['nvTitle',{'androidwx':androidwx},{'hideback':nvConfig.back&&nvConfig.back.hide}]" :style="nvTitleStyle">
+						<text :style="{'color': getTxtColor}">{{nvConfig.title||title}}</text>
 						
 					</view>
-					<view v-if="config.btn&&config.btn.length>0" class="nvBtnGroup">
-						<block v-for="(b,n) in config.btn" :key="n">
+					<view v-if="nvConfig.btn&&nvConfig.btn.length>0" class="nvBtnGroup">
+						<block v-for="(b,n) in nvConfig.btn" :key="n">
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
 								<text class="nvBtnIconTxt" v-if="b.text">{{b.text}}</text>
@@ -89,10 +89,16 @@
 				</view>
 				
 				<!-- 返回键 -->
-				<text :class="['iconfont','nvback',{'nvhome':isSharePage&&!config.closeCheckback}]" @tap.stop="backTap" :style="{'background':(isSharePage&&!config.closeCheckback?(config.componentBgColor||''):''),'color':getTxtColor,'border-radius':'26rpx','font-size': isSharePage&&!config.closeCheckback?'36rpx':'54rpx'}" v-if="!config.hideback">{{isSharePage&&!config.closeCheckback?'&#xe605;':'&#xe743;'}}</text>
+				<text :class="['iconfont','nvback',{'nvhome':isSharePage&&!(nvConfig.back&&nvConfig.back.iconForce)}]" @tap.stop="nvBackTap" :style="{'background':(isSharePage&&!(nvConfig.back&&nvConfig.back.iconForce)?(nvConfig.componentBgColor||''):''),'color':getTxtColor,'border-radius':'26rpx','font-size': isSharePage&&!(nvConfig.back&&nvConfig.back.iconForce)?'36rpx':'54rpx'}" v-if="!(nvConfig.back&&nvConfig.back.hide)&&!nvConfig.address">{{isSharePage&&!(nvConfig.back&&nvConfig.back.iconForce)?'&#xe605;':'&#xe743;'}}</text>
+				<!-- 非flex的地址 -->
+				<view :class="['nvAddress',{'nvSBoxFlex':nvConfig.componentsFlex&&(nvConfig.componentsFlex=='top'||nvConfig.componentsFlex=='bottom')}]" :style="[{'width':nvConfig.address.width||'144rpx'},{'background':(nvConfig.address.bgColor||'')},{'margin-right':Boolean(nvConfig.address.bgColor||'')?'20rpx':'0'},{'color':(nvConfig.address.color||'')}]" v-if="nvConfig.address&&nvConfig.type!='search'" @tap.stop="nvAddressTap">
+					<text class="nvAddressText">{{nvConfig.address[nvConfig.address.fields||'province']||'广东省'}}</text>
+					
+					<text class="iconfont nvAddressIcon" :style="{'color':(nvConfig.address.color||'')}">&#xe6b5;</text>
+				</view>
 			</view>
 		</view>
-		<text class="iconfont nvToTop" :style="(config.toTop&&config.toTop.style)||''" v-if="config.toTop&&showToTop" @tap.stop="toTopTap">&#xe64d;</text>
+		<text class="iconfont nvToTop" :style="(nvConfig.toTop&&nvConfig.toTop.style)||''" v-if="nvConfig.toTop&&showToTop" @tap.stop="toTopTap">&#xe64d;</text>
 	</view>
 </template>
 <script>
@@ -118,6 +124,7 @@
 		},
 		data() {
 			return {
+				nvConfig:this.config,
 				title:getApp().globalData.NAME||"pyh-nv",
 				sysncTitle:(getApp().globalData.hasOwnProperty('sysncTitle')?getApp().globalData.sysncTitle:true),
 				mainColor:getApp().globalData.mainColor||"#2b9939",
@@ -141,55 +148,61 @@
 			};
 		},
 		watch:{
-			"config.search.value":function(value){
-				//监听输入框值得改变
-				var e = {detail:{value:value}};
-				this.inputValue = e.detail.value;
-				if(this.config.type=="search"&&this.config.search.input)this.$emit("nvInput",e);
-			}
-		},
-		filters:{
-			getImgMode(style){
-				//获取图片mode类型
-				if(style&&style.indexOf("height")>-1&&style.indexOf("width")>-1){
-					return 'aspectFill';
-				}else if(style&&style.indexOf("height")>-1){
-					return 'heightFix';
-				}else{
-					return 'widthFix';
-				}
+			config:{
+				handler(newObj,oldObj){this.initConfig(newObj)},
+				immediate:true,
+				deep:true
 			}
 		},
 		computed:{
+			getImgMode(){
+				return (style) => {
+				  //获取图片mode类型
+				  if(style&&style.indexOf("height")>-1&&style.indexOf("width")>-1){
+				  	return 'aspectFill';
+				  }else if(style&&style.indexOf("height")>-1){
+				  	return 'heightFix';
+				  }else{
+				  	return 'widthFix';
+				  }
+			  };
+			},
 			statusHeight(){
 				//状态栏高度
-				var statusBarHeight = this.config.model?0:this.windowInfo.statusBarHeight;
+				var statusBarHeight = this.nvConfig.model?0:this.windowInfo.statusBarHeight;
 				return statusBarHeight+'px';
 			},
 			navigatorHeight(){
 				//导航栏高度
-				var statusBarHeight = this.config.model?0:this.windowInfo.statusBarHeight;
+				var statusBarHeight = this.nvConfig.model?0:this.windowInfo.statusBarHeight;
 				var windowWidth = this.lockWindowWidth&&this.windowInfo.width>750?375:this.windowInfo.width;
 				return parseInt(88*windowWidth/750)+statusBarHeight;
 			},
 			navigatorTop(){
 				//model类型下的顶部高度
 				var windowWidth = this.lockWindowWidth&&this.windowInfo.width>750?375:this.windowInfo.width;
-				if(this.config.model){
+				if(this.nvConfig.model){
 					return parseInt(88*windowWidth/750)+this.windowInfo.statusBarHeight;
 				}else{
 					return 0;
 				}
 			},
 			//安全区域高度
-			safeArea(){return this.config.safeArea||uni.getSystemInfoSync().safeArea.height;},
+			safeArea(){return this.nvConfig.safeArea||uni.getSystemInfoSync().safeArea.height;},
+			nvTitleStyle(){
+				let style = {};
+				if(this.nvConfig.btn&&this.nvConfig.btn.length>1){
+					style.padding=("0 "+(80+80*(this.nvConfig.btn.length-1))+"rpx")
+				}
+				return style
+			},
 			//固定定位判断
-			isFixed(){return this.config.transparent||this.config.position=='fixed'||this.config.position=='absolute'||!this.config.position;},
+			isFixed(){return this.nvConfig.transparent||this.nvConfig.position=='fixed'||this.nvConfig.position=='absolute'||!this.nvConfig.position;},
 			//判断分享页
 			isSharePage(){return this.currentPages==1;},
 			//安卓微信
 			androidwx(){
-				if(this.config.checkAndroidwx&&platform=="mp"&&uni.getSystemInfoSync().platform.indexOf("ios")==-1){
+				if(this.nvConfig.checkAndroidwx&&platform=="mp"&&uni.getSystemInfoSync().platform.indexOf("ios")==-1){
 					return true;
 				}else{
 					return false;
@@ -197,20 +210,20 @@
 			},
 			//获取字体色
 			getTxtColor(){
-				return ((this.config.transparent&&this.config.transparent.initColor)?this.transparent.color:'')||this.config.color||'';
+				return ((this.nvConfig.transparent&&this.nvConfig.transparent.initColor)?this.transparent.color:'')||this.nvConfig.color||'';
 			},
 			//获取/转换背景色
 			getBgColor(){
 				var that = this;
-				if(this.config.bgImage){
+				if(this.nvConfig.bgImage){
 					return "transparent";
-				}else if(this.config.bgColor&&this.config.bgColor.indexOf("gradient")>-1){
-					return this.config.bgColor;
+				}else if(this.nvConfig.bgColor&&this.nvConfig.bgColor.indexOf("gradient")>-1){
+					return this.nvConfig.bgColor;
 				}else{
-					return (this.config.bgColor||this.config.transparent)?'rgba('+getRgbString()+','+(this.config.transparent&&this.config.transparent.type!='content'?this.transparent.opacity:1)+')':'#fff';
+					return (this.nvConfig.bgColor||this.nvConfig.transparent)?'rgba('+getRgbString()+','+(this.nvConfig.transparent&&this.nvConfig.transparent.type!='content'?this.transparent.opacity:1)+')':'#fff';
 				}
 				function getRgbString(){
-					var bgColor = that.config.bgColor||"#ffffff",returnString=""
+					var bgColor = that.nvConfig.bgColor||"#ffffff",returnString=""
 					if(bgColor.indexOf(",")>-1){
 						returnString = bgColor.split('(')[1].replace(')','').split(',').slice(0,3).join(",")
 					}else{
@@ -230,64 +243,30 @@
 					'src': "url('http://at.alicdn.com/t/font_1687851_vdpjdiddv6.ttf')"
 			    })
 			// #endif
-			
-			if(this.config.windowInfo)this.windowInfo = Object.assign(this.windowInfo,this.config.windowInfo)
-			
-			if(this.config.hasOwnProperty('sysncTitle'))this.sysncTitle=this.config.sysncTitle
-			
-			if(this.config.search&&this.config.search.value)this.inputValue=this.config.search.value;
-			if(this.config.transparent&&this.config.transparent.initColor){
-				var initColor = this.config.transparent.initColor,finishColor = this.config.color||"#000000";
-				if(initColor.indexOf("#")>-1&&initColor.length==4){
-					initColor = initColor+initColor.charAt(initColor.length-1)+initColor.charAt(initColor.length-1)+initColor.charAt(initColor.length-1);
-				}
-				if(finishColor.indexOf("#")>-1&&finishColor.length==4){
-					finishColor = finishColor+finishColor.charAt(finishColor.length-1)+finishColor.charAt(finishColor.length-1)+finishColor.charAt(finishColor.length-1);
-				}
-				if(!((initColor=="#000000"||initColor=="#ffffff")&&(finishColor=="#000000"||finishColor=="#ffffff"))){
-					console.log("状态栏颜色只支持，#000000或#ffffff");
-				}
-				this.transparent.initColor = initColor;
-				this.transparent.color = initColor;
-				this.transparent.finishColor = finishColor;
-			}
-			if(this.config.tabArr&&this.config.tabArr){
-				let acIndex = 0;
-				this.config.tabArr.forEach((item,index)=>{
-					if(item.active)acIndex = index
-				})
-				this.nvTabAcIndex = acIndex
-			}
-			if(!this.config.windowInfo){
-				this.deviceOrientation=this.windowInfo.width>750&&this.windowInfo.width>this.windowInfo.height?"landscape":"portrait";
-				if(this.deviceOrientation=="portrait")this.lockWindowWidth=true;
-				uni.onWindowResize((res)=>{
-					if(this.deviceOrientation!=res.deviceOrientation){
-						this.deviceOrientation = res.deviceOrientation;
-						this.windowInfo.width = res.size.windowWidth;
-					}
-				})
-			}
 		},
 		mounted() {
-			if(this.config.color){
-				var obj = {frontColor:this.config.color,backgroundColor:this.config.bgColor||"#ffffff"};
+			//watch后续监听的config无法改变状态栏颜色、浏览器标题同步设置（sysncTitle）
+			if(this.nvConfig.color){
+				var obj = {frontColor:this.nvConfig.color,backgroundColor:this.nvConfig.bgColor||"#ffffff"};
 				uni.setNavigationBarColor(obj);
 			}
-			if(this.config.transparent&&this.config.transparent.initColor){
-				var obj = {frontColor:this.transparent.initColor,backgroundColor:this.config.bgColor||"#ffffff"};
+			if(this.nvConfig.transparent&&this.nvConfig.transparent.initColor){
+				var obj = {frontColor:this.transparent.initColor,backgroundColor:this.nvConfig.bgColor||"#ffffff"};
 				uni.setNavigationBarColor(obj);
 			}
-			if(platform=="h5"&&!this.config.model){
+			if(this.nvConfig.transparent&&platform == "h5"){
+				window.pageYOffset!=0&&this.pageScroll({scrollTop:window.pageYOffset})
+			}
+			if(platform=="h5"&&!this.nvConfig.model){
 				function setDocTitle(t){
 					document.title = t;var i = document.createElement('iframe');/*i.src = '//m.baidu.com/favicon.ico';*/i.style.display = 'none';i.onload = function() {setTimeout(function(){i.remove();}, 9)};document.body.appendChild(i);
 				}
-				if(this.config.hasOwnProperty('title')){
+				if(this.nvConfig.hasOwnProperty('title')){
 					if(!document.title&&!this.sysncTitle){
 						uni.setNavigationBarTitle({title:this.title})
 						setDocTitle(this.title)
 					}
-					this.title = this.config.title
+					this.title = this.nvConfig.title
 					if(this.sysncTitle&&this.title){
 						uni.setNavigationBarTitle({title:this.title})
 						setDocTitle(this.title)
@@ -306,6 +285,66 @@
 		},
 		onUnload() {uni.offWindowResize();},
 		methods:{
+			initConfig(config){
+				this.nvConfig=config
+				if(config.windowInfo)this.windowInfo = Object.assign(this.windowInfo,config.windowInfo)
+				
+				if(config.hasOwnProperty('sysncTitle'))this.sysncTitle=config.sysncTitle
+				
+				if(config.search&&config.search.value&&config.search.value!=this.inputValue){
+					this.inputValue=config.search.value
+					if(config.search.input)this.$emit("nvInput",{detail:{value:config.search.value}});
+				}
+				if(config.transparent){
+					if(config.transparent.reverse)this.transparent.opacity = 1
+					if(config.transparent.initColor){
+						var initColor = config.transparent.initColor,finishColor = config.color||"#000000";
+						if(initColor.indexOf("#")>-1&&initColor.length==4){
+							initColor = initColor+initColor.charAt(initColor.length-1)+initColor.charAt(initColor.length-1)+initColor.charAt(initColor.length-1);
+						}
+						if(finishColor.indexOf("#")>-1&&finishColor.length==4){
+							finishColor = finishColor+finishColor.charAt(finishColor.length-1)+finishColor.charAt(finishColor.length-1)+finishColor.charAt(finishColor.length-1);
+						}
+						if(!((initColor=="#000000"||initColor=="#ffffff")&&(finishColor=="#000000"||finishColor=="#ffffff"))){
+							console.log("状态栏颜色只支持，#000000或#ffffff");
+						}
+						this.transparent.initColor = initColor;
+						this.transparent.color = initColor;
+						this.transparent.finishColor = finishColor;
+					}
+				}
+				if(config.tabArr&&config.tabArr){
+					let acIndex = 0;
+					config.tabArr.forEach((item,index)=>{
+						if(item.active)acIndex = index
+					})
+					this.nvTabAcIndex = acIndex
+				}
+				if(!config.windowInfo){
+					this.deviceOrientation=this.windowInfo.width>750&&this.windowInfo.width>this.windowInfo.height?"landscape":"portrait";
+					if(this.deviceOrientation=="portrait")this.lockWindowWidth=true;
+					uni.onWindowResize((res)=>{
+						if(this.deviceOrientation!=res.deviceOrientation){
+							this.deviceOrientation = res.deviceOrientation;
+							this.windowInfo.width = res.size.windowWidth;
+						}
+					})
+				}
+				//旧版兼容处理Start
+				let back = {
+					hide:Boolean(this.nvConfig.hideback),
+					customEvent:Boolean(this.nvConfig.backpress),
+					iconForce:Boolean(this.nvConfig.closeCheckback)
+				}
+				if(this.nvConfig.back){
+					if(!this.nvConfig.back.hasOwnProperty("hide"))this.nvConfig.back.hide = back.hide
+					if(!this.nvConfig.back.hasOwnProperty("customEvent"))this.nvConfig.back.customEvent = back.customEvent
+					if(!this.nvConfig.back.hasOwnProperty("iconForce"))this.nvConfig.back.iconForce = back.iconForce
+				}else{
+					this.nvConfig.back = back
+				}
+				//旧版兼容处理end
+			},
 			setStyle(object){
 				//设置导航栏样式
 				var style = "";
@@ -314,7 +353,7 @@
 			},
 			nvLogoTap(e){
 				//logo点击
-				var url = this.config.logo.url;
+				var url = this.nvConfig.logo.url;
 				this.$emit("nvLogoTap");
 				url&&uni.reLaunch({url:url});
 			},
@@ -322,23 +361,23 @@
 				//地址图标点击
 				this.$emit("nvAddressTap");
 			},
-			searchTap(e){
+			nvInputTap(e){
 				//搜索按钮点击
-				if(this.config.search.url||this.config.search.linkType){
-					this.linkTo({currentTarget:{dataset:{url:this.config.search.url,type:this.config.search.linkType||''}}});
-				}else{
-					this.$emit("searchTap");
+				this.$emit("nvInputTap",this.nvConfig.search);
+				this.$emit("searchTap",this.nvConfig.search);//此行是为了旧代码兼容
+				if(this.nvConfig.search.url||this.nvConfig.search.linkType){
+					this.linkTo({currentTarget:{dataset:{url:this.nvConfig.search.url,type:this.nvConfig.search.linkType||''}}});
 				}
 			},
 			inputChange(e){
 				//输入框输入
 				this.inputValue = e.detail.value;
-				if(this.config.type=="search"&&this.config.search.input)this.$emit("nvInput",e)
+				if(this.nvConfig.type=="search"&&this.nvConfig.search.input)this.$emit("nvInput",e)
 			},
 			inputClear(e){
 				//输入框清除
 				this.inputValue="";
-				if(this.config.type=="search"&&this.config.search.input)this.$emit("nvInput",e);
+				if(this.nvConfig.type=="search"&&this.nvConfig.search.input)this.$emit("nvInput",e);
 			},
 			formSubmit(e){
 				//输入框提交
@@ -359,30 +398,23 @@
 			toTopTap(e){
 				//回到顶部
 				this.showToTop=false
-				uni.pageScrollTo({scrollTop:0,duration:this.config.toTop.duration||(this.config.toTop.duration===0?0:300)});
+				uni.pageScrollTo({scrollTop:0,duration:this.nvConfig.toTop.duration||(this.nvConfig.toTop.duration===0?0:300)});
 				this.$emit("nvToTop");
 			},
 			pageScroll(e={scrollTop:0}){
 				//页面滚动
-				if(!this.config.transparent)return;
+				if(!this.nvConfig.transparent)return;
 				var anchor = this.navigatorHeight;
-				if(this.config.transparent.anchor)anchor=this.config.transparent.anchor;
+				if(this.nvConfig.transparent.anchor)anchor=this.nvConfig.transparent.anchor;
 				var op = parseFloat(parseFloat(e.scrollTop/anchor).toFixed(1));
-				if(e.scrollTop<=anchor){
-					this.transparent.opacity = op;
-					if(this.config.transparent.initColor){
-						if(op>=.5){
-							this.transparent.color=this.transparent.finishColor;
-							uni.setNavigationBarColor({frontColor:this.transparent.finishColor,backgroundColor:this.config.bgColor||"#ffffff"});
-						}else{
-							this.transparent.color=this.transparent.initColor;
-							uni.setNavigationBarColor({frontColor:this.transparent.initColor,backgroundColor:this.config.bgColor||"#ffffff"});
-						}
-					}
-				}else{
-					this.transparent.opacity = 1;
+				if(this.nvConfig.transparent.reverse)op = parseFloat(parseFloat(1-op).toFixed(1));
+				let judgment = this.nvConfig.transparent.reverse?(op<.5):(op>=.5)
+				this.transparent.opacity = e.scrollTop<=anchor?op:(this.nvConfig.transparent.reverse?0:1);
+				if(this.nvConfig.transparent.initColor){
+					this.transparent.color=(judgment?this.transparent.finishColor:this.transparent.initColor);
+					uni.setNavigationBarColor({frontColor:this.transparent.color,backgroundColor:this.nvConfig.bgColor||"#ffffff"});
 				}
-				if(this.config.toTop){
+				if(this.nvConfig.toTop){
 					if(this.showToTop&&e.scrollTop<this.safeArea){
 						this.showToTop=false;
 					}
@@ -391,10 +423,11 @@
 					}
 				}
 			},
-			backTap(){
+			nvBackTap(){
 				//返回键点击
-				if(this.config.backpress){
-					this.$emit("backTap");
+				if(this.nvConfig.back&&this.nvConfig.back.customEvent){
+					this.$emit("nvBackTap",this.nvConfig.back);
+					this.$emit("backTap",this.nvConfig.back);//此行是为了旧代码兼容
 				}else{
 					this.linkTo({currentTarget:{dataset:{type:'navigateBack'}}});
 				}
@@ -404,7 +437,7 @@
 				var url=e.currentTarget.dataset.url,
 				type=e.currentTarget.dataset.type,
 				isInput=e.currentTarget.dataset.isInput;
-				if(isInput&&this.config.type=="search"&&this.config.search&&this.config.search.input){
+				if(isInput&&this.nvConfig.type=="search"&&this.nvConfig.search&&this.nvConfig.search.input){
 					return;
 				}
 				if(this.$nv){
@@ -484,8 +517,9 @@
 	.nvHeight{height: 88rpx;}
 	.nvFixed{position: absolute;bottom: 0;height: 88rpx;left: 0;z-index: 992;padding: 0 20rpx;}
 	.nvContent{flex: 1;height: 88rpx;align-items: center;}
-	.nvInput{font-size: inherit;flex: 1;}
+	.nvInput{font-size: 14px;flex: 1;height: 100%;}
 	.searchIcon{
+		line-height: 1;
 		width: 18px;
 		margin-right: 20rpx;
 		/* #ifdef MP */
@@ -502,12 +536,15 @@
 	.nvLogoBox{align-items: center;justify-content: center;position: absolute;left: 0;padding-right: 0rpx!important;left: 0;right: 0;}
 	.nvLogo{width: 60rpx;}
 	
-	//含搜索框
-	.nvSearchLogo{margin-right: 20rpx;}
-	.nvAddress{border-radius: 44rpx;justify-content: center;align-items: center;padding: 0 16rpx 0 10rpx;font-size: 28rpx;line-height: 30rpx;margin-right: 20rpx;color: #000000;height: 60rpx;width: 144rpx;}
+	//非搜索的地址框
+	.nvAddress{border-radius: 44rpx;justify-content: center;align-items: center;padding: 0 16rpx 0 10rpx;font-size: 28rpx;line-height: 30rpx;margin-right: 20rpx;height: 60rpx;width: 144rpx;position: absolute;left: 20rpx;padding-left: 8rpx;bottom: 14rpx;flex-direction: row;align-items: center;z-index: 992;}
 	.nvAddressIcon{width: 30rpx;margin-right: 4rpx;font-size: 34rpx;}
 	.nvAddressTextBox{width: 84rpx;overflow: hidden;}
 	.nvAddressText{flex: 1;font-size: 28rpx;line-height: 30rpx;overflow: hidden;text-overflow: ellipsis;}
+	
+	//含搜索框
+	.nvSearchLogo{margin-right: 20rpx;}
+	.nvSearchAddress{position: relative;left: 0;top: 0;bottom: 0;}
 	.searchPlac{color: #bbb;}
 	.nvSForm{flex: 1;justify-content: space-between;align-items: center;}
 	.nvSBox{flex: 1;border-radius: 44rpx;background-color: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
@@ -523,9 +560,9 @@
 	.nvBtn{display: flex;align-items: center;justify-content: center;flex-direction: column;text-align: center;}
 	.nvBtn:first-child{margin-left: 0;}
 	.nvBtn,.nvBtnImg{padding: 0;margin-left: 20rpx;background: transparent;border: 0;color: #000000;z-index: 3;font-size: 28rpx;position: relative;}
-	.nvBtnImg{width: 48rpx;margin-left: 0;}
+	.nvBtnImg{width: 48rpx;max-width: 100%;margin-left: 0;}
 	.nvBtnGroup-static{position: relative;padding-left: 20rpx;right: 0;}
-	.nvBtn .nvBadge{width: 26rpx;height: 26rpx;position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #fff;font-size: 16rpx;z-index: 4;}
+	.nvBadge{width: 26rpx;height: 26rpx;position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #fff;font-size: 16rpx;z-index: 4;}
 	
 	//tab栏
 	.nvTabBox{position: absolute!important;}
@@ -547,14 +584,14 @@
 	
 	/* #ifdef APP-NVUE */
 	.nvContent,.nvback,.nvLogoBox,.nvSearchBox,.nvAddress,.nvSForm,.nvSBox,.nvBtnGroup,.nvTabBox,.nvTab{flex-direction: row;}
-	.nvTitle,.nvAddress,.nvAddressText{lines: 1;}
+	.nvTitle,.nvAddress,.nvAddressText,.nvBadge{lines: 1;}
 	.pyh-nv-box,.nvBox,.nvHeight,.nvFixed,.nvTitle,.nvLogoBox,.nvSearchBox,.nTLine,.nTLine-ac{flex: 1;}
 	.nvTab{flex-direction: column!important;align-items: center;justify-content: flex-end;line-height: 80rpx;margin: 0 10rpx;}
 	/* #endif */
 	
 	/* #ifndef APP-NVUE */
 	.nvContent,.nvback,.nvLogoBox,.nvSearchBox,.nvAddress,.nvSForm,.nvSBox,.nvBtnGroup,.nvTabBox,.nvTab{display: flex;flex-direction: row;}
-	.nvTitle,.nvAddressText{white-space: nowrap;}
+	.nvTitle,.nvAddress,.nvAddressText,.nvBadge{white-space: nowrap;}
 	.nvBox,.nvBox *,.nvContent,.nvTitle,.nvFixed{box-sizing: border-box;}
 	.nvLogo,.nvAddressIcon,.nvBtnImg{height: auto;}
 	.pyh-nv-box,.nvBox,.nvHeight,.nvFixed,.nvTitle,.nvLogoBox,.nvSearchBox,.nTLine,.nTLine-ac{width: 100%;}

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<nv ref="nv" :config="nvConfig" @nvBtnTap="nvBtnTap"></nv>
-		<nv :config="nvConfig2" @nvBtnTap="nvBtnTap" @nvTabTap="nvTabTap"></nv>
+		<nv :config="nvConfig2" @nvBackTap="nvBackTap" @nvBtnTap="nvBtnTap" @nvTabTap="nvTabTap"></nv>
 		<view class="listBox">
 			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
 		</view>
@@ -94,6 +94,9 @@
 			// this.$refs.nv.setStyle({opacity: 0});
 		},
 		methods: {
+			nvBackTap(e){
+				console.log(e);
+			},
 			nvBtnTap(e){
 				console.log(e);
 				uni.showModal({

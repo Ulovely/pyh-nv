@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv :config="nvConfig" @nvInput="nvInput" @nvFormSubmit="nvFormSubmit" @nvAddressTap="nvAddressTap"></nv>
+		<nv :config="nvConfig" @nvInputTap="nvInputTap" @nvInput="nvInput" @nvFormSubmit="nvFormSubmit" @nvAddressTap="nvAddressTap"></nv>
 	</view>
 </template>
 
@@ -12,7 +12,9 @@
 					// componentsFlex:"bottom",//
 					title:"pyh-nv 含搜索框导航栏",
 					type:"search",
-					hideback:true,
+					back:{
+						hide:true
+					},
 					search:{
 						bgColor:"#f8f8f8",
 						// focus:true,
@@ -22,6 +24,7 @@
 						value:"",//如需要动态赋值，必须初始化
 						input:true,
 						// url:"/pages/index/index",
+						//linkType:"",//跳转类型，navigateTo、redirectTo、reLaunch、switchTab
 						btn:{}
 					},
 					logo:{
@@ -56,6 +59,9 @@
 			// },2000)
 		},
 		methods: {
+			nvInputTap(e){
+				console.log(e);
+			},
 			nvInput(e){
 				console.log(e.detail.value);
 			},

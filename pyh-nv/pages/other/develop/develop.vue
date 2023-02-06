@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv ref="nv" :config="nvConfig"></nv>
+		<nv ref="nv" :config="nvConfig2"></nv>
 		<view class="listBox" :style="{'padding-top':(pageTop+'px')}">
 			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
 		</view>
@@ -12,7 +12,7 @@
 		data() {
 			return {
 				nvConfig:{
-					title:"pyh-nv 渐变导航栏",
+					title:"pyh-nv 开发调试专用",
 					bgColor:"#ffffff",
 					// componentBgColor:"#2b9939",
 					color:"#000000",
