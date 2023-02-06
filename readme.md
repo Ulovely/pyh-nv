@@ -8,19 +8,24 @@ uni_modules:
 
 [uni_modules使用方法](https://uniapp.dcloud.io/uni_modules?id=%e4%bd%bf%e7%94%a8-uni_modules-%e6%8f%92%e4%bb%b6)；
 
-uni_modules在template内的名称为pyh-nv,兼容nv写法，需要在pages.json添加代码：
-"easycom": {"nv": "@/uni_modules/pyh-nv/components/pyh-nv/pyh-nv.vue"}
+uni_modules在template内的名称为pyh-nv,为兼容nv写法，需要在pages.json添加代码：
+"easycom": {"custom": { "nv": "@/uni_modules/pyh-nv/components/pyh-nv/pyh-nv.vue"}}
 
 非uni_modules:
-
 复制uni_modules->pyh-nv->components->pyh-nv文件到根目录的components下
 
-在 ``main.js`` 中引用组件 
+在 ``main.js`` 中引用组件 (示例项目main.js有注释，去掉对应注释可以直接使用)
 
 ```javascript
 
 import nv from "@/components/pyh-nv/pyh-nv.vue";
+// #ifndef VUE3
 Vue.component("nv",nv)
+// #endif
+// #ifdef VUE3
+//在const app = createSSRApp(App)后添加
+app.component('nv',nv)
+// #endif
 
 ```
 
@@ -49,8 +54,9 @@ Vue.component("nv",nv)
 |title				|String	|'pyh-nv' 	|标题,默认值为getApp().globalData.NAME或组件内title写死的字符串；标题可以使用config配置修改|
 |sysncTitle			|Boolean|true   	|单页面h5端是否开启同步导航栏（比如微信导航栏）
 |position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，其它值为静态导航栏，随页面滚动				|
-|hideback			|Boolean|false      |是否隐藏导航栏返回功能															|
-|backpress			|Boolean|false      |是否监听并自定义右上角返回键事件，如果为true，默认的返回事件失效，需要组件上写@backTap来监听和自定义事件|
+|back				|Object	|		    |导航栏返回键配置,详细见下方back说明		
+|hideback			|Boolean|false      |是否隐藏导航栏返回功能,1.3.5版本后推荐使用back.hide|
+|backpress			|Boolean|false      |是否监听并自定义右上角返回键事件，如果为true，默认的返回事件失效，需要组件上写@nvBackTap来监听和自定义事件,1.3.5版本后推荐使用back.customEvent|
 |model				|Boolean|false      |是否页面内独立使用模型，如果是固定定位，top为导航栏高度							|
 |bgImage			|String	|''			|导航栏背景图,如果使用，则bgColor无效|
 |bgColor			|String	|'#ffffff'	|导航栏背景色,如果使用渐变色，transparent渐变属性失效|
@@ -65,7 +71,7 @@ Vue.component("nv",nv)
 |search				|Object	|		    |导航栏含搜索框的配置,仅type为search时有效,详细见下方search说明					|
 |transparent		|Object	|		    |导航栏渐变配置,详细见下方transparent说明											|
 |fixedAssist		|Object	|    		|固定/绝对定位时辅助容器,{hide:false,bgColor:''}									|
-|address			|Object	|		    |搜索导航栏左地址配置,{province:'广东省'}											|
+|address			|Object	|		    |导航栏左地址配置,{province:'广东省',color:""},填入color会固定字体色					|
 |btn				|Array	|[]		    |导航栏右方按钮组,{text:'点击1',style:''},{icon:'',text:'',badge:{text:'1',style:''}}|
 |tabArr				|Array	|[]		    |导航栏中间tab切换,{title:'',active:true,hide:false}(说明：active为初始化活动态选项，hide为隐藏选项)|
 
@@ -76,6 +82,16 @@ Vue.component("nv",nv)
 |---				|----	|---	                    |---												|
 |title				|String	|'pyh-nv' 					|标题默认值,getApp().globalData.NAME或自定义字符串	|
 |sysncTitle			|Boolean|true	 					|h5端是否开启同步导航栏（比如微信导航栏）,为全局设置,也通过修改getApp().globalData.sysncTitle来设置|
+
+
+**config 内 back 配置说明：**
+
+|属性名				|类型	|默认值	                    |说明								|
+|---				|----	|---	                    |---								|
+|hide				|Boolean|false   					|是否隐藏返回按钮					|
+|iconForce			|Boolean|false   					|是否固定返回图标为返回键(不做home判断)|
+|customEvent		|Boolean|false     					|是否监听并自定义右上角返回键事件，如果为true，默认的返回事件失效，需要组件上写@nvBackTap来监听和自定义事件|
+|icon				|Object	|{}   						|图标配置，当前版本还没实现，配置预告	|
 
 
 **config 内 toTop 配置说明：**
@@ -96,17 +112,18 @@ Vue.component("nv",nv)
 **config 内 search 配置说明：**
 
 |属性名				|类型	|默认值	    |说明													|
-|---				|----	|---	    |---													|
-|value				|String	|''		    |input的初始值，如需动态赋值，必须初始化					|
-|bgColor			|String	|'#f8f8f8'  |组件背景色,覆盖	componentBgColor						|
-|input				|Boolean|false	    |输入框提示语样式										|
-|url				|String	|''		    |input为false时生效,点击navigateTo到url					|
-|focus				|Boolean|false		|是否自动聚焦												|
-|border				|String |''			|输入框边框样式											|
-|placeholder		|String	|'搜索'	   	|输入框提示语											|
-|placeholderStyle	|String	|''		    |输入框提示语样式										|
+|---				|----	|---	    |---	|
+|value				|String	|''		    |input的初始值，如需动态赋值，必须初始化	|
+|bgColor			|String	|'#f8f8f8'  |组件背景色,覆盖	componentBgColor		|
+|input				|Boolean|false	    |输入框提示语样式						|
+|url				|String	|''		    |input为false时生效,点击跳转到url		|
+|linkType			|String	|''		    |input为false时生效,点击(uni[linkType])到url|
+|focus				|Boolean|false		|是否自动聚焦		|
+|border				|String |''			|输入框边框样式		|
+|placeholder		|String	|'搜索'	   	|输入框提示语		|
+|placeholderStyle	|String	|''		    |输入框提示语样式	|
 |btn				|Object	|		    |input为true时生效,搜索框提交按钮,{text:'搜索',style:''}	|
-|confirmType		|String	|'search'	|同官方input的confirm-type,设置回车键文字				|
+|confirmType		|String	|'search'	|同官方input的confirm-type,设置回车键文字|
 
 **config 内 transparent 配置说明：**
 
@@ -115,15 +132,18 @@ Vue.component("nv",nv)
 |type						|String	|'background' 	|渐变类型,content为全透明渐变							|
 |anchor						|Number	|当前导航栏高度	|最终渐变位置											|
 |initColor					|String	|'#ffffff'  	|导航栏与状态栏初始色,（状态栏字体只支持#000000或#ffffff）	|
+|reverse					|Boolean|false  		|是否反向渐变，为true时，渐变隐藏							|
 
 
 **组件pyh-nv 事件说明(详情请参考示例项目)：**
 
 |属名				|说明										|
 |---				|----										|
+|nvBackTap			|返回键点击自定义事件,会取消返回事件,back.customEvent为true时生效|
 |nvLogoTap			|点击logo,仅logo存在时生效					|
 |nvAddressTap		|点击地址,仅地址存在时生效					|
 |nvInput			|输入框input事件,仅search.input为true时生效	|
+|nvInputTap			|输入框点击自定义事件						|
 |nvFormSubmit		|输入框确认事件,仅search.input为true时生效	|
 |nvBtnTap			|右方按钮组点击事件,仅右方按钮存在时生效		|
 |nvTabTap			|中间tab组点击事件,仅中间tab按钮存在时生效	|
