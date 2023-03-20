@@ -20,14 +20,14 @@
 					// },
 					title:"pyh-nv 通用导航栏",
 					// sysncTitle:false,//是否开启同步导航栏（比如微信导航栏）
-					bgColor:"#fff",
+					bgColor:"#ffffff",
 					componentBgColor:"#f8f8f8",
-					color:"#2b9939",
+					color:"#000000",
 					btn:[
 						{
 							type:"点击1",
 							text:"点击1",
-							//style:"color:#2b9939"
+							//style:"color:#000000"
 						},
 						{
 							type:"点击2",
@@ -58,7 +58,8 @@
 					// position:'static',
 					title:"pyh-nv 导航模块",
 					bgColor:"linear-gradient(to right, red , yellow)",
-					color:"#fff",
+					color:"#ffffff",
+					// mainColor:"#2b9939",//活动态主色
 					btn:[
 						{
 							type:"点击1",
@@ -106,13 +107,6 @@
 			},
 			nvTabTap(e){
 				console.log(e.index);
-				for(var i in this.nvConfig2.tabArr){
-					if(i==e.index){
-						this.nvConfig2.tabArr[i].active=true
-					}else{
-						this.nvConfig2.tabArr[i].active=false
-					}
-				}
 			}
 		}
 	}
@@ -120,5 +114,5 @@
 
 <style>
 	.listBox{background: linear-gradient(to bottom right,#ffc80b, #2b9939);padding: 88rpx 20rpx 20rpx;}
-	.list{background: #fff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
+	.list{background: #ffffff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
 </style>

@@ -14,7 +14,6 @@
 				nvConfig:{
 					title:"pyh-nv 渐变导航栏",
 					bgColor:"#ffffff",
-					// componentBgColor:"#2b9939",
 					color:"#000000",
 					fixedAssist:{
 						hide:true,
@@ -43,5 +42,5 @@
 
 <style>
 	.listBox{background: linear-gradient(to bottom right,#ffc80b, #2b9939);padding: 88rpx 20rpx 20rpx;}
-	.list{background: #fff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
+	.list{background: #ffffff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
 </style>

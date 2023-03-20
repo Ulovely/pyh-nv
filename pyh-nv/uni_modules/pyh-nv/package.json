@@ -1,8 +1,8 @@
 {
     "id": "pyh-nv",
     "name": "pyh-nv 全自定义、全兼容、全功能、多类型、可渐变导航栏",
-    "version": "1.3.3",
-    "description": "所有属性都可自定义，兼容各端包括nvue，所有类型导航栏都可渐变，还可设置状态栏字体色；1.1.6版本后续非uni_modules版本不再更新",
+    "version": "1.4.5",
+    "description": "所有属性都可自定义，兼容各端包括nvue、vue3，所有类型导航栏都可渐变，还可设置状态栏字体色；1.1.6版本后续非uni_modules版本不再更新",
     "keywords": [
         "导航栏",
         "自定义",
@@ -13,10 +13,6 @@
     "displayName": "pyh-nv 全自定义、全兼容、全功能、多类型、可渐变导航栏",
     "repository": "https://github.com/Ulovely/pyh-nv",
     "dcloudext": {
-        "category": [
-            "前端组件",
-            "通用组件"
-        ],
         "sale": {
             "regular": {
                 "price": "0.00"
@@ -33,7 +29,8 @@
             "data": "无",
             "permissions": "无"
         },
-        "npmurl": ""
+        "npmurl": "",
+        "type": "component-vue"
     },
     "uni_modules": {
         "platforms": {
@@ -53,11 +50,11 @@
                     "QQ浏览器(Android)": "y"
                 },
                 "H5-pc": {
-                    "Chrome": "u",
-                    "IE": "u",
-                    "Edge": "u",
-                    "Firefox": "u",
-                    "Safari": "u"
+                    "Chrome": "y",
+                    "IE": "y",
+                    "Edge": "y",
+                    "Firefox": "y",
+                    "Safari": "y"
                 },
                 "小程序": {
                     "微信": "y",
@@ -72,7 +69,7 @@
                 },
                 "Vue": {
                     "vue2": "y",
-                    "vue3": "u"
+                    "vue3": "y"
                 }
             }
         }

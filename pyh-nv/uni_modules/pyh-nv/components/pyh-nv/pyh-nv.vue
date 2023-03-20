@@ -38,11 +38,11 @@
 					</view>
 					<view class="nvSForm" >
 						<view :class="['nvSBox',{'nvSBoxFlex':nvConfig.componentsFlex&&(nvConfig.componentsFlex=='top'||nvConfig.componentsFlex=='bottom')}]" :style="[{'background':(nvConfig.search.bgColor||nvConfig.componentBgColor||'')},{'border':nvConfig.search.border||''}]" @tap.stop="nvInputTap" data-isInput="true">
-							<icon type="search" size="18" class="searchIcon"></icon>
-							<input class="nvInput" type="text" :value="inputValue" :focus="nvConfig.search.focus" :placeholder="nvConfig.search.placeholder" :disabled="!nvConfig.search.input" @input="inputChange" @confirm="formSubmit" :confirm-type="nvConfig.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="nvConfig.search.placeholderStyle||''"/>
-							<icon type="clear" size="15" class="nvSClose" @tap.stop="inputClear" v-if="inputValue"></icon>
+							<icon type="search" size="18" class="searchIcon" :color="nvConfig.search.color||''"></icon>
+							<input class="nvInput" type="text" :value="inputValue" :focus="nvConfig.search.focus" :placeholder="nvConfig.search.placeholder" :disabled="!nvConfig.search.input" @input="inputChange" @confirm="formSubmit" :confirm-type="nvConfig.search.confirmType||'search'" placeholder-class="searchPlac" :placeholder-style="nvConfig.search.placeholderStyle||''" :style="{'color':nvConfig.search.color||''}"/>
+							<icon type="clear" size="15" class="nvSClose" @tap.stop="inputClear" v-if="inputValue" :color="nvConfig.search.color||''"></icon>
 						</view>
-						<text class='nvSBtn' @tap.stop="formSubmit" v-if="nvConfig.search.btn&&nvConfig.search.input" :style="nvConfig.search.btn.style||''">{{nvConfig.search.btn.text||'搜索'}}</text>
+						<text class='nvSBtn' @tap.stop="formSubmit" v-if="nvConfig.search.btn&&nvConfig.search.input" :style="nvConfig.search.btn.style||('background:'+mainColor)">{{nvConfig.search.btn.text||'搜索'}}</text>
 					</view>
 					<view v-if="nvConfig.btn&&nvConfig.btn.length>0" :class="['nvBtnGroup','nvBtnGroup-static',{'componentsFlex':nvConfig.componentsFlex}]">
 						<block v-for="(b,n) in nvConfig.btn" :key="n">
@@ -65,8 +65,8 @@
 				]" v-else>
 					<view v-if="nvConfig.tabArr&&nvConfig.tabArr.length>0" :class="['nvTitle','nvTabBox',{'androidwx':androidwx}]">
 						<view :class="['nvTab',{'nvTabHide':t.hide}]" @tap.stop="nvTabTap" :data-index="i" v-for="(t,i) in nvConfig.tabArr" :key="i">
-							<text :class="[nvTabAcIndex==i?'nTTxt-ac':'nTTxt']" :style="{'color':(nvTabAcIndex==i?mainColor:getTxtColor)}">{{t.title}}</text>
-							<view :class="[nvTabAcIndex==i?'nTLine-ac':'nTLine']"></view>
+							<text :class="[nvTabAcIndex==i?'nTTxt-ac':'nTTxt']" :style="{'color':(nvTabAcIndex==i?mainColor:getTxtColor)}" :aaa="mainColor">{{t.title}}</text>
+							<view :class="[nvTabAcIndex==i?'nTLine-ac':'nTLine']" :style="{'background':(nvTabAcIndex==i?mainColor:getTxtColor)}"></view>
 						</view>
 					</view>
 					<view v-else :class="['nvTitle',{'androidwx':androidwx},{'hideback':nvConfig.back&&nvConfig.back.hide}]" :style="nvTitleStyle">
@@ -127,7 +127,6 @@
 				nvConfig:this.config,
 				title:getApp().globalData.NAME||"pyh-nv",
 				sysncTitle:(getApp().globalData.hasOwnProperty('sysncTitle')?getApp().globalData.sysncTitle:true),
-				mainColor:getApp().globalData.mainColor||"#2b9939",
 				currentPages:getCurrentPages().length||1,
 				home:getApp().globalData.HOME||"/pages/index/index",
 				inputValue:'',
@@ -139,6 +138,7 @@
 					opacity:0
 				},
 				nvTabAcIndex:0,
+				deviceOrientation:"portrait",
 				windowInfo:{
 					width:uni.getSystemInfoSync().windowWidth,
 					height:uni.getSystemInfoSync().windowHeight,
@@ -155,6 +155,7 @@
 			}
 		},
 		computed:{
+			mainColor(){return this.nvConfig.mainColor||getApp().globalData.mainColor||"#2b9939"},
 			getImgMode(){
 				return (style) => {
 				  //获取图片mode类型
@@ -175,12 +176,12 @@
 			navigatorHeight(){
 				//导航栏高度
 				var statusBarHeight = this.nvConfig.model?0:this.windowInfo.statusBarHeight;
-				var windowWidth = this.lockWindowWidth&&this.windowInfo.width>750?375:this.windowInfo.width;
+				var windowWidth = this.deviceOrientation=="portrait"&&this.windowInfo.width>960?375:this.windowInfo.width;
 				return parseInt(88*windowWidth/750)+statusBarHeight;
 			},
 			navigatorTop(){
 				//model类型下的顶部高度
-				var windowWidth = this.lockWindowWidth&&this.windowInfo.width>750?375:this.windowInfo.width;
+				var windowWidth = this.deviceOrientation=="portrait"&&this.windowInfo.width>960?375:this.windowInfo.width;
 				if(this.nvConfig.model){
 					return parseInt(88*windowWidth/750)+this.windowInfo.statusBarHeight;
 				}else{
@@ -220,7 +221,7 @@
 				}else if(this.nvConfig.bgColor&&this.nvConfig.bgColor.indexOf("gradient")>-1){
 					return this.nvConfig.bgColor;
 				}else{
-					return (this.nvConfig.bgColor||this.nvConfig.transparent)?'rgba('+getRgbString()+','+(this.nvConfig.transparent&&this.nvConfig.transparent.type!='content'?this.transparent.opacity:1)+')':'#fff';
+					return (this.nvConfig.bgColor||this.nvConfig.transparent)?'rgba('+getRgbString()+','+(this.nvConfig.transparent&&this.nvConfig.transparent.type!='content'?this.transparent.opacity:1)+')':'#ffffff';
 				}
 				function getRgbString(){
 					var bgColor = that.nvConfig.bgColor||"#ffffff",returnString=""
@@ -284,6 +285,7 @@
 			}
 		},
 		onUnload() {uni.offWindowResize();},
+		expose:['setStyle','pageScroll'],
 		methods:{
 			initConfig(config){
 				this.nvConfig=config
@@ -321,13 +323,11 @@
 					this.nvTabAcIndex = acIndex
 				}
 				if(!config.windowInfo){
-					this.deviceOrientation=this.windowInfo.width>750&&this.windowInfo.width>this.windowInfo.height?"landscape":"portrait";
-					if(this.deviceOrientation=="portrait")this.lockWindowWidth=true;
+					this.deviceOrientation=uni.getSystemInfoSync().deviceOrientation
 					uni.onWindowResize((res)=>{
-						if(this.deviceOrientation!=res.deviceOrientation){
-							this.deviceOrientation = res.deviceOrientation;
-							this.windowInfo.width = res.size.windowWidth;
-						}
+						this.windowInfo.width = res.size.windowWidth;
+						this.windowInfo.height = res.size.windowHeight;
+						if(this.deviceOrientation!=res.deviceOrientation)this.deviceOrientation = res.deviceOrientation;
 					})
 				}
 				//旧版兼容处理Start
@@ -508,11 +508,11 @@
 	//或
 	//uni.scss未定义或定义为null,修改下方$mainColor的默认值
 	$mainColor: #2b9939 !default;
-	$textColor: #000 !default;
+	$textColor: #000000 !default;
 	
 	.pyh-nv-box{position: relative;}
 	.bgImage{position: absolute;left: 0;top: 0;}
-	.nvBox{background-color: #fff;z-index: 991;color: #000000;}
+	.nvBox{background-color: #ffffff;z-index: 991;color: #000000;}
 	.noModel{z-index: 992;}
 	.nvHeight{height: 88rpx;}
 	.nvFixed{position: absolute;bottom: 0;height: 88rpx;left: 0;z-index: 992;padding: 0 20rpx;}
@@ -545,10 +545,10 @@
 	//含搜索框
 	.nvSearchLogo{margin-right: 20rpx;}
 	.nvSearchAddress{position: relative;left: 0;top: 0;bottom: 0;}
-	.searchPlac{color: #bbb;}
+	.searchPlac{color: #bbbbbb;}
 	.nvSForm{flex: 1;justify-content: space-between;align-items: center;}
 	.nvSBox{flex: 1;border-radius: 44rpx;background-color: #f8f8f8;height: 60rpx;line-height: 60rpx;padding: 0 20rpx;align-items: center;}
-	.nvSBtn{color: #fff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;background-color: $mainColor;}
+	.nvSBtn{color: #ffffff;border-radius: 44rpx;height: 60rpx;line-height: 60rpx;width: 120rpx;padding: 0;text-align: center;font-size: 28rpx;margin-left: 20rpx;background: $mainColor;}
 	.nvSClose{
 		/* #ifdef MP */
 		height: 15px;
@@ -562,7 +562,7 @@
 	.nvBtn,.nvBtnImg{padding: 0;margin-left: 20rpx;background: transparent;border: 0;color: #000000;z-index: 3;font-size: 28rpx;position: relative;}
 	.nvBtnImg{width: 48rpx;max-width: 100%;margin-left: 0;}
 	.nvBtnGroup-static{position: relative;padding-left: 20rpx;right: 0;}
-	.nvBadge{width: 26rpx;height: 26rpx;position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #fff;font-size: 16rpx;z-index: 4;}
+	.nvBadge{width: 26rpx;height: 26rpx;position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #ffffff;font-size: 16rpx;z-index: 4;}
 	
 	//tab栏
 	.nvTabBox{position: absolute!important;}
@@ -574,7 +574,7 @@
 	.nvTabHide{width:0;height:0;margin:0;overflow:hidden;}
 	
 	//回到顶部
-	.nvToTop{position: fixed;bottom: 200rpx;right: 40rpx;z-index: 992;background: #fff;border-radius: 50%;width: 80rpx;height: 80rpx;text-align: center;line-height: 80rpx;font-size: 46rpx;box-shadow: 2rpx 2rpx 2rpx 2rpx #ddd;}
+	.nvToTop{position: fixed;bottom: 200rpx;right: 40rpx;z-index: 992;background: #ffffff;border-radius: 50%;width: 80rpx;height: 80rpx;text-align: center;line-height: 80rpx;font-size: 46rpx;box-shadow: 2rpx 2rpx 2rpx 2rpx #ddd;}
 	
 	//小程序胶囊留位
 	/* #ifdef MP-WEIXIN */

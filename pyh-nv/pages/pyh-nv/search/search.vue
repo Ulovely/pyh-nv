@@ -15,8 +15,10 @@
 					back:{
 						hide:true
 					},
+					mainColor:"#2b9939",//活动态主色
 					search:{
 						bgColor:"#f8f8f8",
+						// color:"#2b9939",
 						// focus:true,
 						placeholder:"搜索",
 						// placeholderStyle:"color:#333",
@@ -25,7 +27,9 @@
 						input:true,
 						// url:"/pages/index/index",
 						//linkType:"",//跳转类型，navigateTo、redirectTo、reLaunch、switchTab
-						btn:{}
+						btn:{
+							// style:"background:#2b9939;"//会覆盖活动色mainColor
+						}
 					},
 					logo:{
 						url:"/pages/index/index"
@@ -85,5 +89,5 @@
 </script>
 
 <style>
-
+	
 </style>

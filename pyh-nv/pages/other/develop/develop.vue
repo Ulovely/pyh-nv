@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv ref="nv" :config="nvConfig2"></nv>
+		<nv ref="nv" :config="nvConfig"></nv>
 		<view class="listBox" :style="{'padding-top':(pageTop+'px')}">
 			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
 		</view>
@@ -32,16 +32,18 @@
 		computed:{
 			pageTop(){return parseInt(88*uni.getSystemInfoSync().windowWidth/750) + uni.getSystemInfoSync().statusBarHeight}
 		},
-		onLoad() {
+		mounted() {
 			
 		},
 		methods: {
-			
+			testFun(){
+				console.log("parent")
+			}
 		}
 	}
 </script>
 
 <style>
 	.listBox{background: linear-gradient(to bottom right,#ffc80b, #2b9939);padding: 88rpx 20rpx 20rpx;}
-	.list{background: #fff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
+	.list{background: #ffffff;border-radius: 20rpx;margin-bottom: 20rpx;padding: 16rpx 20rpx;text-align: center;}
 </style>

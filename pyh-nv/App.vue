@@ -19,5 +19,5 @@
 </script>
 
 <style>
-	
+	page{background: #f8f8f8;color: #333;}
 </style>
