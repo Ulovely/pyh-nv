@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv ref="nv" :config="nvConfig"></nv>
+		<pyh-nv ref="nv" :config="nvConfig"></pyh-nv>
 		<view class="listBox" :style="{'padding-top':(pageTop+'px')}">
 			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
 		</view>

@@ -113,7 +113,7 @@
 	platform="mp"
 	//#endif
 	export default {
-		name:"nv",
+		name:"pyh-nv",
 		props:{
 			config:{
 				type:Object,

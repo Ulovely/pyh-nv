@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv :config="nvConfig" @nvInputTap="nvInputTap" @nvInput="nvInput" @nvFormSubmit="nvFormSubmit" @nvAddressTap="nvAddressTap"></nv>
+		<pyh-nv :config="nvConfig" @nvInputTap="nvInputTap" @nvInput="nvInput" @nvFormSubmit="nvFormSubmit" @nvAddressTap="nvAddressTap"></pyh-nv>
 	</view>
 </template>
 

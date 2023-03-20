@@ -5,7 +5,7 @@ import App from './App'
 
 // #ifndef VUE3
 import Vue from 'vue'
-// Vue.component('nv',nv);//非uni_modules的全局引用组件
+// Vue.component('pyh-nv',nv);//非uni_modules的全局引用组件
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
@@ -18,7 +18,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
-  // app.component('nv',nv);//非uni_modules的全局引用组件
+  // app.component('pyh-nv',nv);//非uni_modules的全局引用组件
   return {
     app
   }

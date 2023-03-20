@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<nv :config="nvConfig" @nvLogoTap="nvLogoTap"></nv>
+		<pyh-nv :config="nvConfig" @nvLogoTap="nvLogoTap"></pyh-nv>
 	</view>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<nv ref="nv" :config="nvConfig" @nvBtnTap="nvBtnTap"></nv>
-		<nv :config="nvConfig2" @nvBackTap="nvBackTap" @nvBtnTap="nvBtnTap" @nvTabTap="nvTabTap"></nv>
+		<pyh-nv ref="nv" :config="nvConfig" @nvBtnTap="nvBtnTap"></pyh-nv>
+		<pyh-nv :config="nvConfig2" @nvBackTap="nvBackTap" @nvBtnTap="nvBtnTap" @nvTabTap="nvTabTap"></pyh-nv>
 		<view class="listBox">
 			<view class="list" v-for="(item,i) in 20" :key="i">{{i}}</view>
 		</view>
