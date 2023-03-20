@@ -1,16 +1,12 @@
 ### pyh-nv 全自定义、全兼容、全功能、多类型、可渐变导航栏
 
 pyh-nv 导航栏组件，组件名：``pyh-nv``，代码块： pyh-nv。
-示例项目和说明文档使用了easycom或全局引入，更改了组件名：``nv``，代码块： nv。
 
 **使用方式：**
 
 uni_modules:
 
 [uni_modules使用方法](https://uniapp.dcloud.io/uni_modules?id=%e4%bd%bf%e7%94%a8-uni_modules-%e6%8f%92%e4%bb%b6)；
-
-uni_modules在template内的名称为pyh-nv,为兼容nv写法，需要在pages.json添加代码：
-"easycom": {"custom": { "nv": "@/uni_modules/pyh-nv/components/pyh-nv/pyh-nv.vue"}}
 
 非uni_modules:
 [如何从插件市场下载使用组件](https://ask.dcloud.net.cn/article/35409)
@@ -22,11 +18,11 @@ uni-app插件市场的插件详情页，右上角uni_modules版本下载插件ZI
 
 import nv from "@/components/pyh-nv/pyh-nv.vue";
 // #ifndef VUE3
-Vue.component("nv",nv)
+Vue.component("pyh-nv",nv)
 // #endif
 // #ifdef VUE3
 //在const app = createSSRApp(App)后添加
-app.component('nv',nv)
+app.component('pyh-nv',nv)
 // #endif
 
 ```
@@ -35,11 +31,11 @@ app.component('nv',nv)
 
 ```html
 
-<nv></nv>
+<pyh-nv></pyh-nv>
 
-<nv :config="{back:{hide:true}}"></nv>
+<pyh-nv :config="{back:{hide:true}}"></pyh-nv>
 
-<nv :config="config"></nv>
+<pyh-nv :config="config"></pyh-nv>
 
 ```
 
