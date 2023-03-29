@@ -247,11 +247,11 @@
 		},
 		mounted() {
 			//watch后续监听的config无法改变状态栏颜色、浏览器标题同步设置（sysncTitle）
-			if(this.nvConfig.color){
+			if(this.nvConfig.color&&!this.nvConfig.model){
 				var obj = {frontColor:this.nvConfig.color,backgroundColor:this.nvConfig.bgColor||"#ffffff"};
 				uni.setNavigationBarColor(obj);
 			}
-			if(this.nvConfig.transparent&&this.nvConfig.transparent.initColor){
+			if(this.nvConfig.transparent&&this.nvConfig.transparent.initColor&&!this.nvConfig.model){
 				var obj = {frontColor:this.transparent.initColor,backgroundColor:this.nvConfig.bgColor||"#ffffff"};
 				uni.setNavigationBarColor(obj);
 			}
