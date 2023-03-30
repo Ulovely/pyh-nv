@@ -19,6 +19,7 @@
 					// 	// statusBarHeight:0
 					// },
 					title:"pyh-nv 通用导航栏",
+					// show:true,//是否显示导航栏，可覆盖globalData.nvShow
 					// sysncTitle:false,//是否开启同步导航栏（比如微信导航栏）
 					bgColor:"#ffffff",
 					componentBgColor:"#f8f8f8",

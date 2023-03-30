@@ -1,8 +1,8 @@
-<template name="nv">
-	<view class="pyh-nv-box" :style="style">
+<template name="pyh-nv">
+	<view class="pyh-nv-box" ref="pyhNvBox" :style="style" v-if="show">
 		<view class='nvHeight' :style="[{'height':navigatorHeight+'px'},{'background':(nvConfig.fixedAssist&&nvConfig.fixedAssist.bgColor)||''}]" v-if="isFixed&&!(nvConfig.fixedAssist&&nvConfig.fixedAssist.hide)"></view>
-		<image :src="nvConfig.bgImage" :style="[{'position':isFixed?'fixed':'absolute'},{'top':(nvConfig.model?(navigatorTop+'px'):0)},{'width':windowInfo.width+'px','height':navigatorHeight+'px'}]" v-if="nvConfig.bgImage" class="bgImage"></image>
-		<view :class="['nvBox',{'noModel':!nvConfig.model}]" :style="[{'width':windowInfo.width+'px'},{'color':getTxtColor},{'background':getBgColor},{'opacity':nvConfig.transparent&&nvConfig.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':(isFixed&&nvConfig.model?(navigatorTop+'px'):0)}]">
+		<image :src="nvConfig.bgImage" :style="[{'position':isFixed?'fixed':'absolute'},{'top':(nvConfig.model?(nvBoxRect.top+'px'):0)},{'width':windowInfo.width+'px','height':navigatorHeight+'px'}]" v-if="nvConfig.bgImage&&(nvConfig.model?!nvBoxRect.wait:true)" class="bgImage"></image>
+		<view :class="['nvBox',{'noModel':!nvConfig.model}]" :style="[{'width':windowInfo.width+'px'},{'color':getTxtColor},{'background':getBgColor},{'opacity':nvConfig.transparent&&nvConfig.transparent.type=='content'?transparent.opacity:1},{'position':isFixed?'fixed':'relative'},{'top':(isFixed&&nvConfig.model?(nvBoxRect.top+'px'):0)}]" v-if="nvConfig.model?!nvBoxRect.wait:true">
 			<view class='nvHeight' :style="[{'height':navigatorHeight+'px'}]"></view>
 			<view class='nvFixed' :style="[{'width':windowInfo.width+'px'}]">
 				<!-- 单logo -->
@@ -16,11 +16,11 @@
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
 								<text class="nvBtnIconTxt" v-if="b.text">{{b.text}}</text>
-								<view class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</view>
+								<text class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</text>
 							</view>		
 							<view class="nvBtn" v-else-if="b.text" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||{color:getTxtColor}">
 								<text>{{b.text}}</text>
-								<view class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</view>
+								<text class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</text>
 							</view>	
 						</block>
 					</view>
@@ -49,11 +49,11 @@
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
 								<text class="nvBtnIconTxt" v-if="b.text">{{b.text}}</text>
-								<view class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</view>
+								<text class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</text>
 							</view>		
 							<view class="nvBtn" v-else-if="b.text" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||{color:getTxtColor}">
 								<text>{{b.text}}</text>
-								<view class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</view>
+								<text class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</text>
 							</view>	
 						</block>
 					</view>
@@ -78,11 +78,11 @@
 							<view class="nvBtn" v-if="b.icon" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||''">
 								<image :src="b.icon" mode="widthFix" class="nvBtnImg"></image>
 								<text class="nvBtnIconTxt" v-if="b.text">{{b.text}}</text>
-								<view class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</view>
+								<text class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</text>
 							</view>		
 							<view class="nvBtn" v-else-if="b.text" @tap.stop="nvBtnTap" :data-index="n" :data-type="b.type" :style="b.style||{color:getTxtColor}">
 								<text>{{b.text}}</text>
-								<view class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</view>
+								<text class="nvBadge" v-if="b.badge&&b.badge.text" :style="b.badge.style||''">{{b.badge.text}}</text>
 							</view>			
 						</block>
 					</view>
@@ -102,6 +102,10 @@
 	</view>
 </template>
 <script>
+	let domModule = null;
+	// #ifdef APP-NVUE
+	domModule = weex.requireModule('dom')
+	// #endif
 	var platform = "h5";
 	//#ifdef H5
 	platform="h5"
@@ -126,6 +130,7 @@
 			return {
 				nvConfig:this.config,
 				title:getApp().globalData.NAME||"pyh-nv",
+				show:(getApp().globalData.hasOwnProperty('nvShow')?(this.config.model?true:getApp().globalData.nvShow):true),
 				sysncTitle:(getApp().globalData.hasOwnProperty('sysncTitle')?getApp().globalData.sysncTitle:true),
 				currentPages:getCurrentPages().length||1,
 				home:getApp().globalData.HOME||"/pages/index/index",
@@ -144,6 +149,7 @@
 					height:uni.getSystemInfoSync().windowHeight,
 					statusBarHeight:uni.getSystemInfoSync().statusBarHeight
 				},
+				nvBoxRect:{wait:true,top:0,width:uni.getSystemInfoSync().windowWidth},
 				style:""
 			};
 		},
@@ -178,15 +184,6 @@
 				var statusBarHeight = this.nvConfig.model?0:this.windowInfo.statusBarHeight;
 				var windowWidth = this.deviceOrientation=="portrait"&&this.windowInfo.width>960?375:this.windowInfo.width;
 				return parseInt(88*windowWidth/750)+statusBarHeight;
-			},
-			navigatorTop(){
-				//model类型下的顶部高度
-				var windowWidth = this.deviceOrientation=="portrait"&&this.windowInfo.width>960?375:this.windowInfo.width;
-				if(this.nvConfig.model){
-					return parseInt(88*windowWidth/750)+this.windowInfo.statusBarHeight;
-				}else{
-					return 0;
-				}
 			},
 			//安全区域高度
 			safeArea(){return this.nvConfig.safeArea||uni.getSystemInfoSync().safeArea.height;},
@@ -237,13 +234,10 @@
 			}
 		},
 		created() {
-			// #ifdef APP-NVUE
-				var domModule = weex.requireModule("dom");
-			    domModule.addRule('fontFace', {
-			        'fontFamily': 'iconfont',
-					'src': "url('http://at.alicdn.com/t/font_1687851_vdpjdiddv6.ttf')"
-			    })
-			// #endif
+			domModule&&domModule.addRule('fontFace', {
+				'fontFamily': 'iconfont',
+				'src': "url('http://at.alicdn.com/t/font_1687851_vdpjdiddv6.ttf')"
+			})
 		},
 		mounted() {
 			//watch后续监听的config无法改变状态栏颜色、浏览器标题同步设置（sysncTitle）
@@ -283,6 +277,8 @@
 					}
 				},200)
 			}
+			
+			this.nvConfig.model&&this.getNvBoxRect();//model为true时，初始化获取.pyh-nv-box的节点信息
 		},
 		onUnload() {uni.offWindowResize();},
 		expose:['setStyle','pageScroll'],
@@ -290,7 +286,7 @@
 			initConfig(config){
 				this.nvConfig=config
 				if(config.windowInfo)this.windowInfo = Object.assign(this.windowInfo,config.windowInfo)
-				
+				if(config.hasOwnProperty('show'))this.show=config.show
 				if(config.hasOwnProperty('sysncTitle'))this.sysncTitle=config.sysncTitle
 				
 				if(config.search&&config.search.value&&config.search.value!=this.inputValue){
@@ -488,6 +484,23 @@
 						}
 					}
 				}
+			},
+			async getNvBoxRect(){
+				//获取导航栏节点信息
+				let that = this,view={top: 0,width:this.windowInfo.width};
+				function getNvBoxRect(){
+					return new Promise((resolve,reject)=>{
+						try{
+							if(domModule){
+								domModule.getComponentRect(that.$refs.pyhNvBox, data => {resolve(data.size)})
+							}else{
+								uni.createSelectorQuery().in(that).select(".pyh-nv-box").boundingClientRect(data=>{resolve(data)}).exec();
+							}
+						}catch(e){reject(view)}
+					})
+				}
+				view = await getNvBoxRect()
+				this.nvBoxRect = view
 			}
 		}
 	}
@@ -509,8 +522,9 @@
 	//uni.scss未定义或定义为null,修改下方$mainColor的默认值
 	$mainColor: #2b9939 !default;
 	$textColor: #000000 !default;
+	$fontSize: 14px !default;
 	
-	.pyh-nv-box{position: relative;}
+	.pyh-nv-box{position: relative;font-size: $fontSize;}
 	.bgImage{position: absolute;left: 0;top: 0;}
 	.nvBox{background-color: #ffffff;z-index: 991;color: #000000;}
 	.noModel{z-index: 992;}
@@ -560,9 +574,9 @@
 	.nvBtn{display: flex;align-items: center;justify-content: center;flex-direction: column;text-align: center;}
 	.nvBtn:first-child{margin-left: 0;}
 	.nvBtn,.nvBtnImg{padding: 0;margin-left: 20rpx;background: transparent;border: 0;color: #000000;z-index: 3;font-size: 28rpx;position: relative;}
-	.nvBtnImg{width: 48rpx;max-width: 100%;margin-left: 0;}
+	.nvBtnImg{width: 48rpx;margin-left: 0;}
 	.nvBtnGroup-static{position: relative;padding-left: 20rpx;right: 0;}
-	.nvBadge{width: 26rpx;height: 26rpx;position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #ffffff;font-size: 16rpx;z-index: 4;}
+	.nvBadge{width: 26rpx;height: 26rpx;text-align: center;line-height: 26rpx;; position: absolute;top: -8rpx;right: -8rpx;display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;background-color: red;color: #ffffff;font-size: 16rpx;z-index: 4;}
 	
 	//tab栏
 	.nvTabBox{position: absolute!important;}
@@ -585,6 +599,7 @@
 	/* #ifdef APP-NVUE */
 	.nvContent,.nvback,.nvLogoBox,.nvSearchBox,.nvAddress,.nvSForm,.nvSBox,.nvBtnGroup,.nvTabBox,.nvTab{flex-direction: row;}
 	.nvTitle,.nvAddress,.nvAddressText,.nvBadge{lines: 1;}
+	.nvBadge{right: 0;top: 0;}
 	.pyh-nv-box,.nvBox,.nvHeight,.nvFixed,.nvTitle,.nvLogoBox,.nvSearchBox,.nTLine,.nTLine-ac{flex: 1;}
 	.nvTab{flex-direction: column!important;align-items: center;justify-content: flex-end;line-height: 80rpx;margin: 0 10rpx;}
 	/* #endif */
@@ -594,6 +609,7 @@
 	.nvTitle,.nvAddress,.nvAddressText,.nvBadge{white-space: nowrap;}
 	.nvBox,.nvBox *,.nvContent,.nvTitle,.nvFixed{box-sizing: border-box;}
 	.nvLogo,.nvAddressIcon,.nvBtnImg{height: auto;}
+	.nvBtnImg{max-width: 100%;}
 	.pyh-nv-box,.nvBox,.nvHeight,.nvFixed,.nvTitle,.nvLogoBox,.nvSearchBox,.nTLine,.nTLine-ac{width: 100%;}
 	/* #endif */
 	

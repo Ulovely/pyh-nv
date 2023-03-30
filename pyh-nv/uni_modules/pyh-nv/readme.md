@@ -50,6 +50,7 @@ app.component('pyh-nv',nv)
 |属性名				|类型	|默认值	    |说明			|
 |---				|----	|---	    |---			|
 |title				|String	|'pyh-nv' 	|标题,默认值为getApp().globalData.NAME或组件内title写死的字符串；标题可以使用config配置修改|
+|show				|Boolean|true   	|是否显示导航栏，可以用于多情形控制导航栏的显示,model模型不受影响固定为true|
 |sysncTitle			|Boolean|true   	|单页面h5端是否开启同步导航栏（比如微信导航栏）|
 |position			|String	|'fixed'   	|定位方式,fixed和absoult都是固定定位，其它值为静态导航栏，随页面滚动|
 |back				|Object	|		    |导航栏返回键配置,详细见下方back说明		|
@@ -80,6 +81,7 @@ app.component('pyh-nv',nv)
 |属性名				|类型	|默认值	                    |说明			|
 |---				|----	|---	                    |---			|
 |title				|String	|'pyh-nv' 					|标题默认值,getApp().globalData.NAME或自定义字符串	|
+|show				|Boolean|true   					|是否显示导航栏,可以通过getApp().globalData.nvShow来全局设置,model模型不受影响固定为true|
 |sysncTitle			|Boolean|true	 					|h5端是否开启同步导航栏（比如微信导航栏）,为全局设置,也通过修改getApp().globalData.sysncTitle来设置|
 |mainColor			|String	|'#2b9939' 					|导航栏的活动态颜色，可以通过getApp().globalData.mainColor或自定义颜色，也可以单组件传mainColor设置，目前仅部分导航栏有用到（搜索、tab切换）|
 
